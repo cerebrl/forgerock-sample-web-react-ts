@@ -8,8 +8,6 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React from 'react';
-
 /**
  * @function NewUserIcon - React component that displays the new user (user with +) icon representing registration
  * @param {Object} props - React props object

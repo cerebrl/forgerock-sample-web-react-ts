@@ -8,8 +8,6 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React from 'react';
-
 /**
  * @function ActionIcon - React component that displays the action, "three dots" icon representing the a menu
  * @param {Object} props - React props object

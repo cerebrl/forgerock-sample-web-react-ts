@@ -8,8 +8,6 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React from 'react';
-
 /**
  * @function AlertIcon - React component that displays the alert icon representing the a warning
  * @param {Object} props - React props object

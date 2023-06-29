@@ -8,8 +8,6 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React from 'react';
-
 /**
  * @function KeyIcon - React component that displays the key icon representing login
  * @param {Object} props - React props object

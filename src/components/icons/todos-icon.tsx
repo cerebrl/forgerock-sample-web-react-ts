@@ -8,8 +8,6 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React from 'react';
-
 /**
  * @function TodosIcon - React component that displays the multiple checks icon representing the todos page
  * @param {Object} props - React props object

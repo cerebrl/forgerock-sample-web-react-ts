@@ -1,7 +1,7 @@
 /*
  * forgerock-sample-web-react
  *
- * state.js
+ * global-state.js
  *
  * Copyright (c) 2021 ForgeRock. All rights reserved.
  * This software may be modified and distributed under the terms
@@ -38,10 +38,10 @@ type AppContextState = [
   }
 ];
 type GlobalStateArgs = {
-  email: string;
+  email: string | null;
   isAuthenticated: boolean;
   prefersDarkTheme: boolean;
-  username: string;
+  username: string | null;
 };
 /**
  * @function useStateMgmt - The global state/store for managing user authentication and page

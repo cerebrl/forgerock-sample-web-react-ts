@@ -8,8 +8,6 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React from 'react';
-
 /**
  * @function LockIcon - React component that displays the lock icon representing security
  * @param {Object} props - React props object

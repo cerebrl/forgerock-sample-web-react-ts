@@ -8,8 +8,6 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React from 'react';
-
 /**
  * @function HomeIcon - Displays the home icon representing the home page
  * @param {Object} props - React props object

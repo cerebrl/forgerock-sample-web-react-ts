@@ -12,16 +12,7 @@ import { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppContext } from '../global-state';
-// import VerifiedIcon from '../components/icons/verified-icon';
-
-// const state = {
-// 	isAuthenticated: false,
-// 	username: 'test-username',
-// 	theme: {
-// 		textClass: 'text-dark',
-// 		textMutedClass: 'text-muted',
-// 	},
-// };
+import VerifiedIcon from '../components/icons/verified-icon';
 
 /**
  * @function Home - React view for Home
@@ -48,7 +39,7 @@ export default function Home() {
 
   const LoginAlert = state.isAuthenticated ? (
     <p className="alert alert-success d-flex align-items-center mt-5" role="alert">
-      {/* <VerifiedIcon classes="cstm_verified-alert-icon" size="36px" /> */}
+      <VerifiedIcon classes="cstm_verified-alert-icon" size="36px" />
       <span className="ps-2">
         Welcome back, {state.username}!{' '}
         <Link className="cstm_verified-alert-link" to="/todos">

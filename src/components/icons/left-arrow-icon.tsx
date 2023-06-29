@@ -8,8 +8,6 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React from 'react';
-
 /**
  * @function LeftArrowIcon - React component that displays the left arrow representing "back"
  * @param {Object} props - React props object

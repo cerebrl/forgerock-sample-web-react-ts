@@ -8,8 +8,6 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React from 'react';
-
 /**
  * @function ReactIcon - React component that displays the React brand icon
  * @param {Object} props - React props object

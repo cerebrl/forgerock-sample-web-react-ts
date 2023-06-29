@@ -8,7 +8,7 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 import { AppContext } from '../../global-state';
 

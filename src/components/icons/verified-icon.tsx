@@ -8,8 +8,6 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import React from 'react';
-
 /**
  * @function VerifiedIcon - React component that displays the verified checkmark icon representing the validation
  * @param {Object} props - React props object

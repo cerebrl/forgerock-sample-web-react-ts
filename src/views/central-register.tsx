@@ -1,7 +1,7 @@
 /*
  * forgerock-sample-web-react
  *
- * central-login.js
+ * login.js
  *
  * Copyright (c) 2021 ForgeRock. All rights reserved.
  * This software may be modified and distributed under the terms
@@ -16,10 +16,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AppContext } from '../global-state';
 
 /**
- * @function Login - React view for Login
+ * @function CentralRegister - React view for Central Register
  * @returns {Object} - React component object
  */
-export default function CentralLogin() {
+export default function CentralRegister() {
   // Used for setting global authentication state
   const [_, methods] = useContext(AppContext);
   const navigate = useNavigate();
@@ -34,23 +34,33 @@ export default function CentralLogin() {
       if (codeParam && stateParam) {
         await TokenManager.getTokens({ query: { codeParam, stateParam } });
       } else {
-        await TokenManager.getTokens({ login: 'redirect' });
+        await TokenManager.getTokens({
+          login: 'redirect',
+          /**
+           * Make sure you set `registration_tree` in the OAuth2 Provider service and
+           * point it to the `Registration` tree
+           */
+          query: { acr_values: 'registration_tree' },
+        });
       }
-			// Get the current user
-			const user = await UserManager.getCurrentUser() as { name: string; email: string };
-			/**
-			 * First, let's see if we get a user back from useJourneyHandler.
-			 * If we do, let's set the user data and redirect back to home.
-			 */
-			if (user) {
-				/**
-				 * Set user state/info on "global state"
-				 */
-				methods.setUser(user?.name);
-				methods.setEmail(user.email);
-				methods.setAuthentication(true);
-			}
-			navigate('/');
+      // Get the current user
+      const user = (await UserManager.getCurrentUser()) as {
+        name: string;
+        email: string;
+      };
+      /**
+       * First, let's see if we get a user back from useJourneyHandler.
+       * If we do, let's set the user data and redirect back to home.
+       */
+      if (user) {
+        /**
+         * Set user state/info on "global state"
+         */
+        methods.setUser(user?.name);
+        methods.setEmail(user.email);
+        methods.setAuthentication(true);
+      }
+      navigate('/');
     }
 
     getTokens();

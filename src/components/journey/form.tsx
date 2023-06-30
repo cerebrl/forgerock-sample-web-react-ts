@@ -8,8 +8,8 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { Fragment, useEffect, useContext, useReducer } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { Fragment, useEffect, useContext, useReducer } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import Boolean from './boolean';
 import Alert from './alert';
@@ -27,13 +27,19 @@ import ValidatedCreatePassword from './validate-create-password';
 import Button from './button';
 import {
   AttributeInputCallback,
+  CallbackType,
   ChoiceCallback,
+  DeviceProfileCallback,
+  FRAuth,
   FRCallback,
+  FRStep,
+  FRWebAuthn,
   KbaCreateCallback,
   PasswordCallback,
   TermsAndConditionsCallback,
   ValidatedCreatePasswordCallback,
 } from '@forgerock/javascript-sdk';
+import DeviceProfile from './device-profile';
 
 /**
  * @function Form - React component for managing the user authentication journey
@@ -52,9 +58,9 @@ export default function Form({
   topMessage,
 }: {
   action: { type: string };
-  bottomMessage?: JSX.Element | string;
+  bottomMessage?: React.JSX.Element | string;
   followUp?: () => void;
-  topMessage?: string;
+  topMessage?: React.JSX.Element | string;
 }) {
   /**
    * Compose the state used in this view.
@@ -70,6 +76,17 @@ export default function Form({
   const [form] = useReducer(treeReducer, treeReducer(null, action));
   // Used for redirection after success
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+
+  // Get the code and state from the URL query parameters
+  const codeParam = params.get('code');
+  const stateParam = params.get('state');
+  const formPostEntryParam = params.get('form_post_entry');
+
+  let resumeUrl  = '';
+  if ((codeParam && stateParam) && formPostEntryParam) {
+    resumeUrl = window.location.href;
+  }
 
   /**
    * Custom "hook" for handling form orchestration
@@ -77,7 +94,7 @@ export default function Form({
   const [
     { formFailureMessage, renderStep, submittingForm, user },
     { setSubmissionStep, setSubmittingForm },
-  ] = useJourneyHandler({ action, form });
+  ] = useJourneyHandler({ action, form, resumeUrl });
 
   /**
    * If the user successfully authenticates, let React complete
@@ -129,6 +146,10 @@ export default function Form({
       case 'ChoiceCallback':
         return (
           <Choice callback={cb as ChoiceCallback} inputName={name} key={name} />
+        );
+      case 'DeviceProfileCallback':
+        return (
+          <p>This sample app doesn't support DeviceProfileCallback combined with other callbacks.</p>
         );
       case 'NameCallback':
       case 'ValidatedCreateUsernameCallback':
@@ -182,6 +203,11 @@ export default function Form({
     }
   }
 
+  function isDeviceProfileCallback(step: FRStep) {
+    const isIt = step.getCallbacksOfType(CallbackType.DeviceProfileCallback);
+    return isIt.length > 0;
+  }
+
   /**
    * Render conditions for presenting appropriate views to user.
    * First, we need to handle no "step", which means we are waiting for
@@ -204,6 +230,34 @@ export default function Form({
      * user while we complete the process and redirect to home page.
      */
     return <Loading message='Success! Redirecting ...' />;
+  } else if (renderStep.type === 'Step' && isDeviceProfileCallback(renderStep)) {
+    return (
+      <Fragment>
+        <form className='cstm_form'>
+          <DeviceProfile
+            callback={
+              renderStep.getCallbackOfType(
+                CallbackType.DeviceProfileCallback
+              ) as DeviceProfileCallback
+            }
+            onComplete={() => {
+              setSubmittingForm(true);
+              setSubmissionStep(renderStep);
+            }}
+          />
+        </form>
+      </Fragment>
+    );
+  } else if (
+    renderStep.type === 'Step' &&
+    FRWebAuthn.getWebAuthnStepType(renderStep)
+  ) {
+    return (
+    <Fragment>
+      <form className='cstm_form'>
+      </form>
+    </Fragment>
+    );
   } else if (renderStep.type === 'Step') {
     /**
      * The step to render has callbacks, so we need to collect additional

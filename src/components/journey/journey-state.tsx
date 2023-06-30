@@ -44,9 +44,11 @@ type JourneyState = [
 export default function useJourneyHandler({
   action,
   form,
+  resumeUrl,
 }: {
   action: { type: string };
   form: any;
+  resumeUrl?: string | null;
 }): JourneyState {
   /**
    * Compose the state used in this view.
@@ -133,7 +135,11 @@ export default function useJourneyHandler({
        ********************************************************************* */
       let nextStep;
       try {
-        nextStep = await FRAuth.next(prev, { tree: form.tree });
+        if (resumeUrl) {
+          nextStep = await FRAuth.resume(resumeUrl);
+        } else {
+          nextStep = await FRAuth.next(prev, { tree: form.tree });
+        }
       } catch (err) {
         console.error(`Error: failure in next step request; ${err}`);
 

@@ -14,14 +14,24 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 // Import views
 import Home from './views/home.tsx';
 import CentralLogin from './views/central-login.tsx';
-// import EmbeddedLogin from './views/embedded-login.tsx';
-import Register from './views/register.tsx';
+import EmbeddedLogin from './views/embedded-login.tsx';
+import CentralRegister from './views/central-register.tsx';
+import EmbeddedRegister from './views/embedded-register.tsx';
 import Todos from './views/todos.tsx';
 
 // import layout components
 import Header from './components/layout/header.tsx';
 import Footer from './components/layout/footer.tsx';
 import Logout from './views/logout.tsx';
+
+let Login = CentralLogin;
+let Register = CentralRegister;
+
+// If embedded login is set, switch to the embedded views
+if (import.meta.env.VITE_EMBEDDED_LOGIN) {
+  Login = EmbeddedLogin;
+  Register = EmbeddedRegister;
+}
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -35,7 +45,7 @@ export default function Router() {
         </>
       ),
     },
-    { path: '/login', element: <CentralLogin /> },
+    { path: '/login', element: <Login /> },
     { path: '/logout', element: <Logout /> },
     { path: '/register', element: <Register /> },
     {

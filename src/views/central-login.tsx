@@ -14,6 +14,9 @@ import { useContext, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { AppContext } from '../global-state';
+import Loading from '../components/utilities/loading';
+import BackHome from '../components/utilities/back-home';
+import Card from '../components/layout/card';
 
 /**
  * @function Login - React view for Login
@@ -57,9 +60,13 @@ export default function CentralLogin() {
   }, []);
 
   return (
-    <div>
-      <h1>Login</h1>
-      <p>Checking session ...</p>
+    <div className='cstm_container_v-centered container-fluid d-flex align-items-center'>
+      <div className='w-100'>
+        <BackHome />
+        <Card>
+          <Loading message='Checking your session ...' />
+        </Card>
+      </div>
     </div>
   );
 }

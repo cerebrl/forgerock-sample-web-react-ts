@@ -10,12 +10,44 @@
 
 // Import libraries
 import { Config, TokenStorage } from '@forgerock/javascript-sdk';
+import { client } from '@forgerock/token-vault';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+// Import bootstrap modules
+import './bootstrap.ts';
+
 // Import components
+import { USE_TOKEN_VAULT } from './constants.ts';
 import { AppContext, useGlobalStateMgmt } from './global-state.ts';
 import Router from './router.tsx';
+
+let tokenStore;
+
+if (USE_TOKEN_VAULT) {
+  // Initialize Token Vault Client and register Interceptor, Proxy and Store
+  const register = client({
+    app: {
+      origin: 'http://localhost:5173',
+    },
+    interceptor: {
+      file: new URL('workers/interceptor.ts', import.meta.url).pathname,
+      scope: '/',
+    },
+    proxy: {
+      origin: 'http://localhost:5174',
+    },
+  });
+
+  // Register the Token Vault Interceptor
+  await register.interceptor();
+
+  // Register the Token Vault Proxy
+  await register.proxy(document.getElementById('token-vault') as HTMLElement);
+
+  // Register the Token Vault Store
+  tokenStore = register.store();
+}
 
 /** ***************************************************************************
  * SDK INTEGRATION POINT
@@ -33,7 +65,7 @@ import Router from './router.tsx';
  * - tree: The authentication journey/tree to use, such as `sdkAuthenticationTree`
  *************************************************************************** */
 Config.set({
-  clientId: 'WebOAuthClient',
+  clientId: import.meta.env.VITE_AM_WEB_OAUTH_CLIENT,
   redirectUri: 'http://localhost:5173/login',
   scope: 'openid profile email',
   serverConfig: {
@@ -41,6 +73,7 @@ Config.set({
     timeout: 3000,
   },
   realmPath: 'alpha',
+  ...(USE_TOKEN_VAULT && { tokenStore }),
 });
 
 /**
@@ -57,7 +90,9 @@ Config.set({
    ************************************************************************* */
   let isAuthenticated = false;
   try {
-    isAuthenticated = !!(await TokenStorage.get());
+    isAuthenticated = USE_TOKEN_VAULT
+      ? !!(await tokenStore?.has())?.hasTokens
+      : !!(await TokenStorage.get());
   } catch (err) {
     console.error(`Error: token retrieval for hydration; ${err}`);
   }
@@ -98,11 +133,9 @@ Config.set({
     });
 
     return (
-      <React.StrictMode>
-        <AppContext.Provider value={stateMgmt}>
-          <Router />
-        </AppContext.Provider>
-      </React.StrictMode>
+      <AppContext.Provider value={stateMgmt}>
+        <Router />
+      </AppContext.Provider>
     );
   }
 

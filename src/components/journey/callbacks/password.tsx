@@ -10,9 +10,9 @@
 
 import { ChangeEvent, useContext, useState } from 'react';
 
-import { AppContext } from '../../global-state';
-import EyeIcon from '../icons/eye-icon';
-import { PolicyRequirement, ValidatedCreatePasswordCallback } from '@forgerock/javascript-sdk';
+import { AppContext } from '../../../global-state';
+import EyeIcon from '../../icons/eye-icon';
+import { PasswordCallback } from '@forgerock/javascript-sdk';
 
 /**
  * @function Password - React component used for displaying password callback
@@ -21,12 +21,12 @@ import { PolicyRequirement, ValidatedCreatePasswordCallback } from '@forgerock/j
  * @param {string} props.errorMessage - Error message string
  * @returns {Object} - React component object
  */
-export default function ValidatedCreatePassword({
+export default function Password({
   callback,
   errorMessage = '',
-  inputName = 'ValidatedCreatePasswordCallbackInput',
+  inputName = 'PasswordCallbackInput',
 }: {
-  callback: ValidatedCreatePasswordCallback;
+  callback: PasswordCallback;
   errorMessage?: string;
   inputName?: string;
 }) {
@@ -39,10 +39,7 @@ export default function ValidatedCreatePassword({
    * Details: Each callback is wrapped by the SDK to provide helper methods
    * for accessing values from the callbacks received from AM
    ************************************************************************* */
-  const failedPolicies =
-    callback.getFailedPolicies && callback.getFailedPolicies();
   const passwordLabel = callback.getPrompt();
-  const policies = callback.getPolicies && callback.getPolicies();
   const [isVisible, setVisibility] = useState(false);
 
   let Validation = null;
@@ -75,30 +72,6 @@ export default function ValidatedCreatePassword({
   if (errorMessage) {
     validationClass = 'is-invalid';
     Validation = <div className='invalid-feedback'>{errorMessage}</div>;
-  }
-
-  if (failedPolicies && failedPolicies.length) {
-    const validationFailure = failedPolicies.reduce<string>((prev, curr: PolicyRequirement): string => {
-      switch (curr.policyRequirement) {
-        case 'LENGTH_BASED':
-          prev = `${prev}Ensure password contains more than ${curr.params && curr.params['min-password-length']} characters. `;
-          break;
-        case 'CHARACTER_SET':
-          prev = `${prev}Ensure password contains 1 of each: capital letter, number and special character. `;
-          break;
-        default:
-          prev = `${prev}Please check this value for correctness.`;
-      }
-      return prev;
-    }, '');
-    validationClass = 'is-invalid';
-    Validation = <div className='invalid-feedback'>{validationFailure}</div>;
-  }
-
-  if (policies?.policyRequirements) {
-    isRequired = policies.policyRequirements.includes('REQUIRED');
-  } else if (callback.isRequired) {
-    isRequired = callback.isRequired();
   }
 
   return (

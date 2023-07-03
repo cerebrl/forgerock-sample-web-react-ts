@@ -8,7 +8,7 @@ interceptor({
   forgerock: {
     serverConfig: {
       baseUrl: import.meta.env.VITE_AM_URL,
-      timeout: 5000,
+      timeout: import.meta.env.VITE_AM_TIMEOUT,
     },
     realmPath: import.meta.env.VITE_AM_REALM_PATH,
   },

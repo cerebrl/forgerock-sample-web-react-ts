@@ -10,12 +10,12 @@
 
 import { useContext } from 'react';
 
-import GithubIcon from '../icons/github-icon';
-import GoogleIcon from '../icons/google-icon';
-import LinkedInIcon from '../icons/linkedin-icon';
-import { AppContext } from '../../global-state';
+import GithubIcon from '../../icons/github-icon';
+import GoogleIcon from '../../icons/google-icon';
+import LinkedInIcon from '../../icons/linkedin-icon';
+import { AppContext } from '../../../global-state';
 import { SelectIdPCallback } from '@forgerock/javascript-sdk';
-import FacebookIcon from '../icons/facebook-icon';
+import FacebookIcon from '../../icons/facebook-icon';
 
 export default function SelectIdp({
   callback,

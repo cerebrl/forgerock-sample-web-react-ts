@@ -18,7 +18,7 @@ import {
 } from '@forgerock/javascript-sdk';
 import { Dispatch, useEffect, useState } from 'react';
 
-import { htmlDecode } from '../../utilities/decode';
+import { htmlDecode } from '../../../utilities/decode';
 
 type JourneyState = [
   {

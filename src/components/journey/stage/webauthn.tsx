@@ -1,7 +1,7 @@
 /*
  * forgerock-sample-web-react
  *
- * device-profile.js
+ * webauthn.js
  *
  * Copyright (c) 2021 ForgeRock. All rights reserved.
  * This software may be modified and distributed under the terms
@@ -10,9 +10,13 @@
 
 import { useContext, useEffect } from 'react';
 
-import { AppContext } from '../../global-state';
-import { DeviceProfileCallback, FRDevice } from '@forgerock/javascript-sdk';
-import Loading from '../utilities/loading';
+import { AppContext } from '../../../global-state';
+import {
+  FRStep,
+  FRWebAuthn,
+  WebAuthnStepType,
+} from '@forgerock/javascript-sdk';
+import Loading from '../../utilities/loading';
 
 /**
  * @function Choice - React component used for displaying choices
@@ -20,12 +24,12 @@ import Loading from '../utilities/loading';
  * @param {Object} props.callback - The callback object from AM
  * @returns {Object} - React component object
  */
-export default function DeviceProfile({
-  callback,
-	onComplete,
+export default function WebAuthn({
+  step,
+  onComplete,
 }: {
-  callback: DeviceProfileCallback;
-	onComplete: () => void;
+  step: FRStep;
+  onComplete: () => void;
 }) {
   const [state] = useContext(AppContext);
 
@@ -36,23 +40,19 @@ export default function DeviceProfile({
    * Details: Each callback is wrapped by the SDK to provide helper methods
    * for accessing values from the callbacks received from AM
    ************************************************************************* */
-  const message = callback.getMessage();
+  const webAuthnStep = FRWebAuthn.getWebAuthnStepType(step);
 
   useEffect(() => {
-    const device = new FRDevice();
-
-    async function getDeviceProfile() {
-      // Collect user profile data
-      const location = callback.isLocationRequired();
-      const metadata = callback.isMetadataRequired();
-      const profile = await device.getProfile({ location, metadata });
-
-      // Set the profile on the callback
-      callback.setProfile(profile);
-			onComplete();
+    async function performWebAuthn() {
+      if (webAuthnStep === WebAuthnStepType.Registration) {
+        FRWebAuthn.register(step);
+      } else {
+        FRWebAuthn.authenticate(step);
+      }
+      onComplete();
     }
-    getDeviceProfile();
+    performWebAuthn();
   }, []);
 
-  return <Loading message={message} />;
+  return <Loading message={'Please verify with your device.'} />;
 }

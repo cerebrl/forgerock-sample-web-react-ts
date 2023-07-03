@@ -13,7 +13,12 @@ import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../global-state';
 import ActionIcon from '../icons/action-icon';
 import TodoIcon from '../icons/todo-icon';
-import { TodoItem } from '../todo/todo';
+
+export type TodoItem = {
+  _id: string;
+  completed: boolean;
+  title: string;
+};
 
 /**
  * @function Todo - Used for display a single todo and its details

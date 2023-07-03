@@ -22,7 +22,7 @@ import useTodoFetch from '../components/todos/fetch';
 import reducer from '../components/todos/reducer';
 import Todo from '../components/todos/todo';
 import apiRequest from '../utilities/request';
-import { TodoItem } from '../components/todo/todo';
+import { TodoItem } from '../components/todos/todo';
 
 /**
  * @function Todos - React view for retrieving & displaying todo collection

@@ -8,38 +8,23 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
+import {
+  CallbackType,
+  DeviceProfileCallback,
+  FRStep,
+  FRWebAuthn,
+} from '@forgerock/javascript-sdk';
 import React, { Fragment, useEffect, useContext, useReducer } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import Boolean from './boolean';
-import Alert from './alert';
-import Choice from './choice';
-import Kba from './kba';
-import Loading from '../utilities/loading';
-import Password from './password';
+import Alert from '../../utilities/alert';
+import Loading from '../../utilities/loading';
 import treeReducer from './tree-reducer';
 import useJourneyHandler from './journey-state';
-import { AppContext } from '../../global-state';
-import TermsConditions from './terms-conditions';
-import Text from './text';
-import Unknown from './unknown';
-import ValidatedCreatePassword from './validate-create-password';
-import Button from './button';
-import {
-  AttributeInputCallback,
-  CallbackType,
-  ChoiceCallback,
-  DeviceProfileCallback,
-  FRAuth,
-  FRCallback,
-  FRStep,
-  FRWebAuthn,
-  KbaCreateCallback,
-  PasswordCallback,
-  TermsAndConditionsCallback,
-  ValidatedCreatePasswordCallback,
-} from '@forgerock/javascript-sdk';
+import { AppContext } from '../../../global-state';
+import Button from '../../utilities/button';
 import DeviceProfile from './device-profile';
+import { mapCallbacksToComponents } from './map-callbacks';
 
 /**
  * @function Form - React component for managing the user authentication journey
@@ -128,80 +113,6 @@ export default function Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  /**
-   * Iterate through callbacks received from AM and map the callback to the
-   * appropriate callback component, pushing that component
-   * the StepComponent's array.
-   */
-  function mapCallbacksToComponents(cb: FRCallback, idx: number) {
-    const name = cb?.payload?.input?.[0].name;
-    /** *********************************************************************
-     * SDK INTEGRATION POINT
-     * Summary:SDK callback method for getting the callback type
-     * ----------------------------------------------------------------------
-     * Details: This method is helpful in quickly identifying the callback
-     * when iterating through an unknown list of AM callbacks
-     ********************************************************************* */
-    switch (cb.getType()) {
-      case 'ChoiceCallback':
-        return (
-          <Choice callback={cb as ChoiceCallback} inputName={name} key={name} />
-        );
-      case 'DeviceProfileCallback':
-        return (
-          <p>This sample app doesn't support DeviceProfileCallback combined with other callbacks.</p>
-        );
-      case 'NameCallback':
-      case 'ValidatedCreateUsernameCallback':
-      case 'StringAttributeInputCallback':
-        return (
-          <Text
-            callback={cb as AttributeInputCallback<string>}
-            inputName={name}
-            key={name}
-          />
-        );
-      case 'PasswordCallback':
-        return (
-          <Password
-            callback={cb as PasswordCallback}
-            inputName={name}
-            key={name}
-          />
-        );
-      case 'ValidatedCreatePasswordCallback':
-        return (
-          <ValidatedCreatePassword
-            callback={cb as ValidatedCreatePasswordCallback}
-            inputName={name}
-            key={name}
-          />
-        );
-      case 'BooleanAttributeInputCallback':
-        return (
-          <Boolean
-            callback={cb as AttributeInputCallback<boolean>}
-            inputName={name}
-            key={name}
-          />
-        );
-      case 'TermsAndConditionsCallback':
-        return (
-          <TermsConditions
-            callback={cb as TermsAndConditionsCallback}
-            inputName={name}
-            key={name}
-          />
-        );
-      case 'KbaCreateCallback':
-        return (
-          <Kba callback={cb as KbaCreateCallback} inputName={name} key={name} />
-        );
-      default:
-        // If current callback is not supported, render a warning message
-        return <Unknown callback={cb} key={`unknown-${idx}`} />;
-    }
-  }
 
   function isDeviceProfileCallback(step: FRStep) {
     const isIt = step.getCallbacksOfType(CallbackType.DeviceProfileCallback);

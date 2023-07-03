@@ -8,7 +8,7 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { TodoItem } from '../todo/todo';
+import { TodoItem } from './todo';
 
 /**
  * @function reducer - A simple reducer for managing the state of todos

@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:proxy": "vite -c vite.proxy.config.js",
+    "dev:proxy": "cd proxy && vite",
     "build": "tsc && vite build",
+    "build:proxy": "cd proxy && tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:proxy": "cd proxy && vite preview"
   },
   "dependencies": {
     "@forgerock/javascript-sdk": "../forgerock-javascript-sdk/dist/packages/javascript-sdk",

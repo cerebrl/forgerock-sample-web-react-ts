@@ -15,7 +15,7 @@ import BackHome from '../components/utilities/back-home';
 import Card from '../components/layout/card';
 import { AppContext } from '../global-state';
 import KeyIcon from '../components/icons/key-icon';
-import Form from '../components/journey/form';
+import Form from '../components/journey/stage/form';
 
 /**
  * @function Login - React view for Login

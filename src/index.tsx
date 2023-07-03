@@ -11,31 +11,32 @@
 // Import libraries
 import { Config, TokenStorage } from '@forgerock/javascript-sdk';
 import { client } from '@forgerock/token-vault';
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 // Import bootstrap modules
 import './bootstrap.ts';
 
-// Import components
-import { USE_TOKEN_VAULT } from './constants.ts';
+// Import constants
+import * as c from './constants.ts';
+
+// Import state and router mgmt
 import { AppContext, useGlobalStateMgmt } from './global-state.ts';
 import Router from './router.tsx';
 
 let tokenStore;
 
-if (USE_TOKEN_VAULT) {
+if (c.USE_TOKEN_VAULT) {
   // Initialize Token Vault Client and register Interceptor, Proxy and Store
   const register = client({
     app: {
-      origin: 'http://localhost:5173',
+      origin: c.TOKEN_VAULT_APP_ORIGIN,
     },
     interceptor: {
-      file: new URL('workers/interceptor.ts', import.meta.url).pathname,
-      scope: '/',
+      file: new URL(c.TOKEN_VAULT_INTERCEPTOR_FILE, import.meta.url).pathname,
+      scope: c.TOKEN_VAULT_INTERCEPTOR_SCOPE,
     },
     proxy: {
-      origin: 'http://localhost:5174',
+      origin: c.TOKEN_VAULT_PROXY_ORIGIN,
     },
   });
 
@@ -65,15 +66,15 @@ if (USE_TOKEN_VAULT) {
  * - tree: The authentication journey/tree to use, such as `sdkAuthenticationTree`
  *************************************************************************** */
 Config.set({
-  clientId: import.meta.env.VITE_AM_WEB_OAUTH_CLIENT,
-  redirectUri: 'http://localhost:5173/login',
-  scope: 'openid profile email',
+  clientId: c.WEB_OAUTH_CLIENT,
+  redirectUri: c.REDIRECT_URI,
+  scope: c.OAUTH_SCOPE,
   serverConfig: {
-    baseUrl: 'https://forgerock.crbrl.io/am/',
-    timeout: 3000,
+    baseUrl: c.AM_URL,
+    timeout: c.TIMEOUT,
   },
-  realmPath: 'alpha',
-  ...(USE_TOKEN_VAULT && { tokenStore }),
+  realmPath: c.REALM_PATH,
+  ...(c.USE_TOKEN_VAULT && { tokenStore }),
 });
 
 /**
@@ -90,7 +91,7 @@ Config.set({
    ************************************************************************* */
   let isAuthenticated = false;
   try {
-    isAuthenticated = USE_TOKEN_VAULT
+    isAuthenticated = c.USE_TOKEN_VAULT
       ? !!(await tokenStore?.has())?.hasTokens
       : !!(await TokenStorage.get());
   } catch (err) {

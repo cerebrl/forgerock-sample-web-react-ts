@@ -10,8 +10,8 @@
 
 import { ChangeEvent, Fragment, useContext } from 'react';
 
-import { AppContext } from '../../global-state';
-import LockIcon from '../icons/lock-icon';
+import { AppContext } from '../../../global-state';
+import LockIcon from '../../icons/lock-icon';
 import { KbaCreateCallback } from '@forgerock/javascript-sdk';
 
 /**

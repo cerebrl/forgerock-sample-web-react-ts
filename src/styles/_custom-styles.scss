@@ -222,6 +222,13 @@ body {
     box-shadow: 0 0 0 30px $gray-800 inset !important;
     -webkit-text-fill-color: $white !important;
   }
+  &:focus + label {
+    color: $gray-200;
+
+    &:after {
+      background-color: transparent;
+    }
+  }
 }
 .cstm_form {
   button[type="submit"] {
@@ -231,14 +238,28 @@ body {
 .cstm_form-floating > .cstm_form-select {
   padding-bottom: $form-select-padding-y;
   transition: background-color 0.5s;
+
+  & + label:after {
+    background-color: transparent;
+  }
 }
 .bg-dark .cstm_form-select {
   &:focus {
     color: $gray-900 !important;
     background-color: $gray-400 !important;
   }
+  & + label {
+    color: $gray-200;
+  }
+  & + label:after {
+    background-color: transparent;
+  }
   &:focus + label {
     color: $gray-900;
+
+    &:after {
+      background-color: transparent;
+    }
   }
 }
 

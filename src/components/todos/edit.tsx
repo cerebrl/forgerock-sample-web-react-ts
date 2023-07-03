@@ -11,7 +11,7 @@
 import { Dispatch, FormEvent, MouseEvent, useContext, useRef } from 'react';
 
 import { AppContext } from '../../global-state';
-import { TodoItem } from '../todo/todo';
+import { TodoItem } from './todo';
 
 /**
  * @function Edit - Used for a single todo for edit within a modal popup

@@ -10,7 +10,7 @@
 
 import { ChangeEvent, useContext } from 'react';
 
-import { AppContext } from '../../global-state';
+import { AppContext } from '../../../global-state';
 import { ChoiceCallback } from '@forgerock/javascript-sdk';
 
 /**

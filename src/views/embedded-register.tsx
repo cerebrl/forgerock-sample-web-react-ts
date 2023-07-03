@@ -16,7 +16,7 @@ import Card from '../components/layout/card';
 import { AppContext } from '../global-state';
 import apiRequest from '../utilities/request';
 import NewUserIcon from '../components/icons/new-user-icon';
-import Form from '../components/journey/form';
+import Form from '../components/journey/stage/form';
 
 /**
  * @function Register - React view for Register

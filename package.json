@@ -4,35 +4,26 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "dev:proxy": "cd proxy && vite",
-    "build": "tsc && vite build",
-    "build:proxy": "cd proxy && tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "preview:proxy": "cd proxy && vite preview"
+    "clean": "git clean -fdX -e \"!.env\"",
+    "dev:app": "npm run dev --workspace todo-react-app",
+    "dev:proxy": "npm run dev --workspace token-vault-proxy",
+    "dev:server": "npm run dev --workspace todo-api-server",
+    "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@forgerock/javascript-sdk": "../forgerock-javascript-sdk/dist/packages/javascript-sdk",
-    "@forgerock/token-vault": "../forgerock-javascript-sdk/dist/packages/token-vault",
-    "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.0"
+    "@forgerock/token-vault": "../forgerock-javascript-sdk/dist/packages/token-vault"
   },
   "devDependencies": {
     "@types/node": "^20.3.2",
-    "@types/react": "^18.0.37",
-    "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
-    "@vitejs/plugin-react": "^4.0.0",
     "eslint": "^8.38.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
-    "sass": "^1.63.6",
-    "typescript": "^5.0.2",
-    "vite": "^4.3.9"
-  }
+    "typescript": "^5.0.2"
+  },
+  "workspaces": [
+    "token-vault-proxy",
+    "todo-react-app",
+    "todo-api-server"
+  ]
 }

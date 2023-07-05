@@ -3,7 +3,7 @@ import { interceptor } from '@forgerock/token-vault';
 // Initialize the token vault interceptor
 interceptor({
   interceptor: {
-    urls: ['https://fr-todos-api.crbrl.io/*'],
+    urls: [`${import.meta.env.VITE_API_URL}/*`],
   },
   forgerock: {
     serverConfig: {

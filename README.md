@@ -2,7 +2,7 @@
 
 ## Disclaimers
 
-This sample code is provided "as is" and is not a supported product of ForgeRock. It's purpose is solely to demonstrate how the ForgeRock JavaScript SDK can be implemented within a React application. Also, this is not a demonstration of React itself or instructional for _how_ to build a React app. There are many aspects to routing, state management, tooling and other aspects to building a React app that are outside of the scope of this project. For information about creating a React app, [visit React's official documentation](https://reactjs.org/docs/create-a-new-react-app.html).
+This sample code is provided "as is" and is not a supported product of ForgeRock. It's purpose is solely to demonstrate how the ForgeRock JavaScript Tooling can be implemented within a React application. Also, this is not a demonstration of React itself or instructional for _how_ to build a React app. There are many aspects to routing, state management, tooling and other aspects to building a React app that are outside of the scope of this project. For information about creating a React app, [visit React's official documentation](https://reactjs.org/docs/create-a-new-react-app.html).
 
 ## Requirements
 
@@ -19,17 +19,17 @@ Once you have the requirements above met, we can build the project.
 
 #### Configure CORS
 
-1. Allowed origins: `http://localhost:5173`, `http://localhost:5174`
+1. Allowed origins: `http://localhost:5173`, `http://localhost:5174`, `http://localhost:5175`
 2. Allowed methods: `GET` `POST`
 3. Allowed headers: `Content-Type` `X-Requested-With` `Accept-API-Version` `Authorization`
-4. Allow credentials: enable
+4. Allow credentials: enabled
 
 #### Create Your OAuth Clients
 
-1. Create a public (SPA) OAuth client for the web app: no secret, scopes of `openid email`, implicit consent enabled, and no "token authentication endpoint method".
-2. Create a confidential (Node.js) OAuth client for the API server: with a secret, default scope of `am-introspect-all-tokens`, and `client_secret_basic` as the "token authentication endpoint method".
+1. Create a public (SPA) OAuth client for the web app: name of `WebOAuthClient`, withOUT a secret, scopes of `openid email`, implicit consent _enabled_, and `none` "token authentication endpoint method".
+2. Create a confidential (Node.js) OAuth client for the API server: name of `RestOAuthClient`, WITH a secret, default scope of `am-introspect-all-tokens`, and `client_secret_basic` as the "token authentication endpoint method".
 
-#### Create your Authentication Journeys/Trees
+#### Use Default Journeys/Trees
 
 1. Login
 2. Register
@@ -55,17 +55,15 @@ Example with annotations:
 
 ```text
 # System settings
-VITE_AM_URL=https://forgerock.crbrl.io/am/
+VITE_AM_URL=<<<YOUR AM INSTANCE>>>
 VITE_APP_URL=http://localhost:5173
-VITE_API_URL=https://fr-todos-api.crbrl.io
+VITE_API_URL=http://localhost:5174
 
 # AM settings
 VITE_AM_JOURNEY_LOGIN=Login
 VITE_AM_JOURNEY_REGISTER=Registration
 VITE_AM_TIMEOUT=5000
 VITE_AM_REALM_PATH=alpha
-VITE_AM_REST_OAUTH_CLIENT=RestOAuthClient
-VITE_AM_REST_OAUTH_SECRET=your-secret
 VITE_AM_WEB_OAUTH_CLIENT=WebOAuthClient
 VITE_AM_WEB_OAUTH_SCOPE=openid email
 VITE_AM_WEB_OAUTH_REDIRECT_URI=http://localhost:5173/login
@@ -73,8 +71,11 @@ VITE_AM_WEB_OAUTH_REDIRECT_URI=http://localhost:5173/login
 # Client settings
 VITE_DEBUGGER_OFF=true
 VITE_DEVELOPMENT=true
-VITE_SEC_KEY_FILE=key.pem
-VITE_SEC_CERT_FILE=cert.pem
+
+# Server settings
+AM_REST_OAUTH_CLIENT=RestOAuthClient
+AM_REST_OAUTH_SECRET=<<<YOUR SECRET>>>
+API_PORT=5174
 
 # Token Vault settings
 VITE_TOKEN_VAULT_APP_ORIGIN=http://localhost:5173
@@ -93,25 +94,8 @@ VITE_USE_TOKEN_VAULT=false
 **Run from root of repo**: since this sample app uses npm's workspaces, we recommend running the npm commands from the root of the repo.
 
 ```sh
-# Install all dependencies (no need to pass the -w option)
+# Install all dependencies
 npm install
-
-# run sample app project
-# only if you want to see the app build, the serve command will do this for you
-npm run build:reactjs-todo
-```
-
-### Update Your `/etc/hosts` File
-
-Now you'll need to update your `hosts` (`/etc/hosts` if on a Mac) to allow for domain aliases:
-
-```sh
-sudo vim /etc/hosts
-```
-
-```text
-# hosts file aliases
-127.0.0.1 react.example.com api.example.com
 ```
 
 ### Run the Servers
@@ -119,15 +103,21 @@ sudo vim /etc/hosts
 Now, run the below commands to start the processes needed for building the application and running the servers for both client and API server:
 
 ```sh
-# In one terminal window, run the following watch command
-npm run start:reactjs-todo
+# In one terminal window, run the following app command
+npm run dev:app
 ```
 
-Now, you should be able to visit `https://react.example.com:8443`, which is your web app or client (the Relying Party in OAuth terms). This client will make requests to your AM instance, (the Authorization Server in OAuth terms), which will be running on whatever domain you set, and `https://api.example.com:9443` as the REST API for your todos (the Resource Server).
+```sh
+# In a separate terminal window, run the server command
+npm run dev:server
+```
 
-### Accept Cert Exceptions
+```sh
+# If Token Vault is enabled, a third, separate terminal window, run the proxy command
+npm run dev:proxy
+```
 
-You will likely have to accept the security certificate exceptions for both your React app and the Node.js server. To accept the cert form the Node.js server, you can visit `https://api.example.com:9443/healthcheck` in your browser. Once you receive "OK", your Node.js server is running on the correct domain and port, and the cert is accepted.
+Now, you should be able to visit `http://localhost:5173`, which is your web app or client (the Relying Party in OAuth terms). This client will make requests to your AM instance, (the Authorization Server in OAuth terms), which will be your Identity Cloud tenant, and `http://localhost:5174` as the REST API for your todos (the Resource Server). Finally, your proxy, if you have Token Vault enabled, will be running on `http://localhost:5175`.
 
 ## Learn About Integration Touchpoints
 
@@ -148,10 +138,7 @@ To modify the client portion of this project, you'll need to be familiar with th
 3. [Context API](https://reactjs.org/docs/hooks-reference.html#usecontext)
 4. [React Router](https://reactrouter.com/)
 
-You'll also want a [basic understanding of Webpack](https://webpack.js.org/concepts/) and the following:
-
-1. [Babel transformation for React](https://webpack.js.org/loaders/babel-loader/#root)
-2. [Plugins for Sass-to-CSS processing](https://webpack.js.org/loaders/sass-loader/#root)
+You'll also want a [basic understanding of Vite](https://vitejs.dev/guide/) and [TypeScript](https://www.typescriptlang.org/docs/).
 
 #### Styling and CSS
 
@@ -164,3 +151,24 @@ To modify the API server, you'll need a [basic understanding of Node](https://no
 1. [Express](https://expressjs.com/)
 2. [PouchDB](https://pouchdb.com/)
 3. [Superagent](https://www.npmjs.com/package/superagent)
+4. [TypeScript](https://www.typescriptlang.org/docs/)
+
+### Token Vault
+
+If Token Vault is enabled, you'll want to familiarize yourself with the following as it is fundamental to how the Token Vault Plugin works:
+
+1. [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
+2. [iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe)
+3. [Post messaging with the `MessageChannel` interface](https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel)
+
+#### Configuring, Registering the Token Vault Client
+
+When the Token Vault feature is enabled, a block of code in this file will be activated: `todo-react-app/src/index.tsx`. This is where the Token Vault client is configured and the associated Interceptor and Proxy is registered.
+
+#### Configuring the Interceptor (Service Worker)
+
+The Interceptor can be found here: `todo-react-app/src/workers/interceptor.ts`. The essential configuration is the array of URLs you want the Interceptor to catch and forward to the proxy, and your ForgeRock configuration.
+
+#### Configuring the Proxy (iframe)
+
+The Proxy can be found here: `token-vault-proxy/src/index.ts`. The essential configuration is the main, React app's origin and the ForgeRock configuration.

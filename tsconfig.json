@@ -21,6 +21,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "proxy", "vite.config.ts"],
+  "include": ["todo-api-server", "token-vault-proxy", "todo-react-app"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

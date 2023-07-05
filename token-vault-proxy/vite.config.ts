@@ -7,7 +7,7 @@ export default defineConfig(() => {
     envDir: '../',
     root: process.cwd(),
     server: {
-      port: 5174,
+      port: 5175,
     },
   };
 })

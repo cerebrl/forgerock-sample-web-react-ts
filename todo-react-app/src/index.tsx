@@ -14,14 +14,14 @@ import { client } from '@forgerock/token-vault';
 import ReactDOM from 'react-dom/client';
 
 // Import bootstrap modules
-import './bootstrap.ts';
+import './bootstrap.js';
 
 // Import constants
-import * as c from './constants.ts';
+import * as c from './constants';
 
 // Import state and router mgmt
-import { AppContext, useGlobalStateMgmt } from './global-state.ts';
-import Router from './router.tsx';
+import { AppContext, useGlobalStateMgmt } from './global-state';
+import Router from './router';
 
 let tokenStore;
 

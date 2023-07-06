@@ -4,6 +4,10 @@
 
 This sample code is provided "as is" and is not a supported product of ForgeRock. It's purpose is solely to demonstrate how the ForgeRock JavaScript Tooling can be implemented within a React application. Also, this is not a demonstration of React itself or instructional for _how_ to build a React app. There are many aspects to routing, state management, tooling and other aspects to building a React app that are outside of the scope of this project. For information about creating a React app, [visit React's official documentation](https://reactjs.org/docs/create-a-new-react-app.html).
 
+## Overview
+
+This sample/test app is intended to help demonstrate and test certain features of the JavaScript SDK within a more "real world" application.
+
 ## Requirements
 
 1. An instance of ForgeRock's Access Manager (AM), either within a ForgeRock's Identity Cloud tenant, your own private installation or locally installed on your computer
@@ -13,7 +17,7 @@ This sample code is provided "as is" and is not a supported product of ForgeRock
 
 ## Setup
 
-Once you have the requirements above met, we can build the project.
+Once you have the requirements above met, we can build and run the project.
 
 ### Setup Your AM Instance
 
@@ -26,15 +30,34 @@ Once you have the requirements above met, we can build the project.
 
 #### Create Your OAuth Clients
 
-1. Create a public (SPA) OAuth client for the web app: name of `WebOAuthClient`, withOUT a secret, scopes of `openid email`, implicit consent _enabled_, and `none` "token authentication endpoint method".
-2. Create a confidential (Node.js) OAuth client for the API server: name of `RestOAuthClient`, WITH a secret, default scope of `am-introspect-all-tokens`, and `client_secret_basic` as the "token authentication endpoint method".
+1. Create a public (SPA) OAuth client for the web app:
+    1. Name: `WebOAuthClient`
+    2. NO secret
+    3. Scopes: `openid email`
+    4. Implicit consent: _enabled_
+    5. Token authentication endpoint method: `none`
+2. Create a confidential (Node.js) OAuth client for the API server:
+    1. Name: `RestOAuthClient`
+    2. ADD a client secret
+    3. Default scope: `am-introspect-all-tokens`
+    4. Token authentication endpoint method: `client_secret_basic`
+
+#### Choose Between Embedded or Central Login
+
+You have two choices for authenticating your users: Centralized Login (users will be redirected to the ForgeRock login page) or Embedded Login (users will login within this React app). The login experience for your users is up to you. You can [read more about this choice within our SDK docs](https://backstage.forgerock.com/docs/sdks/latest/authentication/embeddedvscentralized.html).
+
+Your choice for login experience is set within the `.env` file you'll create below.
 
 #### Use Default Journeys/Trees
+
+ForgeRock's Identity Cloud tenants come pre-installed within the most common types of Login and Registration journeys. These are recommended for this sample.
 
 1. Login
 2. Register
 
-Note: The sample app currently supports the following callbacks only:
+If you are using a standalone AM instance, rather than our cloud product, then you may need to create these trees. Keep them simple to ensure highest compatibility with this sample app.
+
+##### Supported callbacks (important if using Embedded Login)
 
 - NameCallback
 - PasswordCallback
@@ -55,11 +78,12 @@ Example with annotations:
 
 ```text
 # System settings
+# Rour ForgeRock server, your application server & API (todos) server
 VITE_AM_URL=<<<YOUR AM INSTANCE>>>
 VITE_APP_URL=http://localhost:5173
 VITE_API_URL=http://localhost:5174
 
-# AM settings
+# AM settings for your React App
 VITE_AM_JOURNEY_LOGIN=Login
 VITE_AM_JOURNEY_REGISTER=Registration
 VITE_AM_TIMEOUT=5000
@@ -68,25 +92,26 @@ VITE_AM_WEB_OAUTH_CLIENT=WebOAuthClient
 VITE_AM_WEB_OAUTH_SCOPE=openid email
 VITE_AM_WEB_OAUTH_REDIRECT_URI=http://localhost:5173/login
 
-# Client settings
-VITE_DEBUGGER_OFF=true
-VITE_DEVELOPMENT=true
+# Additional app settings
+VITE_DEBUGGER_OFF=true # Not implemented yet
+VITE_DEVELOPMENT=true # Not implemented yet
 
-# Server settings
+# AM settings for your API (todos) server
 AM_REST_OAUTH_CLIENT=RestOAuthClient
 AM_REST_OAUTH_SECRET=<<<YOUR SECRET>>>
 API_PORT=5174
 
-# Token Vault settings
+# Login UX settings
+VITE_EMBEDDED_LOGIN=true # Embedded or Central Login experience
+VITE_USE_LOGIN_WIDGET=false # Not implemented yet
+VITE_USE_TOKEN_VAULT=false # Increased security for OAuth token storage
+
+# Token Vault settings (if enabled)
 VITE_TOKEN_VAULT_APP_ORIGIN=http://localhost:5173
 VITE_TOKEN_VAULT_INTERCEPTOR_FILE=workers/interceptor.ts
 VITE_TOKEN_VAULT_INTERCEPTOR_SCOPE=/
-VITE_TOKEN_VAULT_PROXY_ORIGIN=http://localhost:5174
+VITE_TOKEN_VAULT_PROXY_ORIGIN=http://localhost:5175
 
-# UX settings
-VITE_EMBEDDED_LOGIN=true
-VITE_USE_LOGIN_WIDGET=false
-VITE_USE_TOKEN_VAULT=false
 ```
 
 ### Installing Dependencies and Run Build
@@ -100,21 +125,29 @@ npm install
 
 ### Run the Servers
 
-Now, run the below commands to start the processes needed for building the application and running the servers for both client and API server:
+You will have a minimum of two servers to run: one for the React app and one for the API server. Each will should be run in its own terminal window. Run the below commands to start the processes needed for building the application and running the servers for both client and API server:
 
 ```sh
 # In one terminal window, run the following app command
 npm run dev:app
+
+# Runs the React app server on http://localhost:5173
 ```
 
 ```sh
 # In a separate terminal window, run the server command
 npm run dev:server
+
+# Runs the API server on http://localhost:5174
 ```
+
+If you have enabled Token Vault, you will need to start up one more server. This server is what runs the Token Vault Proxy.
 
 ```sh
 # If Token Vault is enabled, a third, separate terminal window, run the proxy command
 npm run dev:proxy
+
+# Runs the Token Vault proxy on http://localhost:5175
 ```
 
 Now, you should be able to visit `http://localhost:5173`, which is your web app or client (the Relying Party in OAuth terms). This client will make requests to your AM instance, (the Authorization Server in OAuth terms), which will be your Identity Cloud tenant, and `http://localhost:5174` as the REST API for your todos (the Resource Server). Finally, your proxy, if you have Token Vault enabled, will be running on `http://localhost:5175`.

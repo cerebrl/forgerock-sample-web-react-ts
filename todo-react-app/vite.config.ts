@@ -11,8 +11,6 @@ export default defineConfig({
       'Service-Worker': 'script',
     },
     port: 5173,
-  },
-  worker: {
-    format: 'es',
+    strictPort: true,
   },
 });

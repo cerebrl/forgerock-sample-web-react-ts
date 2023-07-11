@@ -5,10 +5,16 @@
   "type": "module",
   "scripts": {
     "clean": "git clean -fdX -e \"!.env\"",
+    "build:app": "npm run build --workspace todo-react-app",
+    "build:proxy": "npm run build --workspace token-vault-proxy",
+    "build:server": "npm run build --workspace todo-api-server",
     "dev:app": "npm run dev --workspace todo-react-app",
     "dev:proxy": "npm run dev --workspace token-vault-proxy",
     "dev:server": "npm run dev --workspace todo-api-server",
-    "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "serve:app": "npm run serve --workspace todo-react-app",
+    "serve:proxy": "npm run serve --workspace token-vault-proxy",
+    "serve:server": "npm run serve --workspace todo-api-server"
   },
   "dependencies": {
     "@forgerock/javascript-sdk": "../forgerock-javascript-sdk/dist/packages/javascript-sdk",

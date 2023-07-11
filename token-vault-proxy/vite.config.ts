@@ -8,6 +8,7 @@ export default defineConfig(() => {
     root: process.cwd(),
     server: {
       port: 5175,
+      strictPort: true,
     },
   };
 })

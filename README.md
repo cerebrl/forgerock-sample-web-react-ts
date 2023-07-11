@@ -33,9 +33,12 @@ Once you have the requirements above met, we can build and run the project.
 1. Create a public (SPA) OAuth client for the web app:
     1. Name: `WebOAuthClient`
     2. NO secret
-    3. Scopes: `openid email`
-    4. Implicit consent: _enabled_
-    5. Token authentication endpoint method: `none`
+    3. Sign-in URL or Redirect URL: `http://localhost:5173/login`
+    4. Scopes: `openid email`
+    5. Grant types: `Authorization Code` and `Refresh Token`
+    6. Implicit consent: _enabled_
+    7. Token authentication endpoint method: `none`
+    8. Response types: `code`, `token`, `id_token` and `refresh_token`
 2. Create a confidential (Node.js) OAuth client for the API server:
     1. Name: `RestOAuthClient`
     2. ADD a client secret

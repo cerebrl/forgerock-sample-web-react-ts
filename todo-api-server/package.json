@@ -6,7 +6,9 @@
   "main": "./src/index.js",
   "type": "module",
   "scripts": {
-    "dev": "dotenv -e ../.env -- ts-node-esm -T ./src/index.ts"
+    "dev": "dotenv -e ../.env -- ts-node-esm -T ./src/index.ts",
+    "build": "tsc",
+    "serve": "node -r dotenv/config ./dist/index.js dotenv_config_path=../.env"
   },
   "author": "Justin Lowery",
   "license": "ISC",

@@ -1,30 +1,31 @@
 {
 	"name": "todo-react-app",
-  "private": true,
+	"private": true,
 	"version": "1.0.0",
 	"description": "Sample React App with TypeScript",
 	"main": "index.js",
-	"type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
+	"scripts": {
+		"dev": "npm run build:interceptor && vite",
+		"build": "npm run build:interceptor && vite build",
+    "build:interceptor": "vite build -c ./vite.interceptor.config.ts",
+		"serve": "vite preview --port 5173"
+	},
 	"dependencies": {
-    "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.0"
+		"@popperjs/core": "^2.11.8",
+		"bootstrap": "^5.3.0",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-router-dom": "^6.14.0"
 	},
 	"devDependencies": {
-    "@types/react": "^18.0.37",
-    "@types/react-dom": "^18.0.11",
+		"@types/react": "^18.0.37",
+		"@types/react-dom": "^18.0.11",
 		"@vitejs/plugin-react": "^4.0.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
-    "sass": "^1.63.6",
-    "vite": "^4.3.9"
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-react-refresh": "^0.3.4",
+		"sass": "^1.63.6",
+		"typescript": "^5.1.6",
+		"vite": "^4.3.9"
 	},
-  "author": "Justin Lowery"
+	"author": "Justin Lowery"
 }

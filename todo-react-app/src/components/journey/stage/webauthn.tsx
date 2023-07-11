@@ -8,9 +8,8 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { AppContext } from '../../../global-state';
 import {
   FRStep,
   FRWebAuthn,
@@ -31,8 +30,6 @@ export default function WebAuthn({
   step: FRStep;
   onComplete: () => void;
 }) {
-  const [state] = useContext(AppContext);
-
   /** *************************************************************************
    * SDK INTEGRATION POINT
    * Summary: SDK callback methods for getting values

@@ -13,6 +13,6 @@ proxy({
       baseUrl: import.meta.env.VITE_AM_URL,
       timeout: import.meta.env.VITE_AM_TIMEOUT,
     },
-    realmPath: import.meta.env.VITE_AM_REALM,
+    realmPath: import.meta.env.VITE_AM_REALM_PATH,
   },
 });

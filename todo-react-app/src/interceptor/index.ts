@@ -1,3 +1,4 @@
+
 import { interceptor } from '@forgerock/token-vault';
 
 // Initialize the token vault interceptor

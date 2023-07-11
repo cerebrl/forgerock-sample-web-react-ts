@@ -77,7 +77,7 @@ export async function get(user, id) {
   return item;
 }
 
-export async function put(user, data, create) {
+export async function put(user, data, create?) {
   let item;
   try {
     item = await todosDb.put(data);

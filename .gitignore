@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+*/public/*.js
 *.local
 .env
 
@@ -27,3 +28,6 @@ dist-ssr
 # DB files
 todo-api-server/users
 todo-api-server/todos
+
+# Certs
+*.pem

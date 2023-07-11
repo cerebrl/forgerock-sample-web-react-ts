@@ -14,7 +14,7 @@ import { client } from '@forgerock/token-vault';
 import ReactDOM from 'react-dom/client';
 
 // Import bootstrap modules
-import './bootstrap.js';
+import './bootstrap';
 
 // Import constants
 import * as c from './constants';
@@ -23,64 +23,64 @@ import * as c from './constants';
 import { AppContext, useGlobalStateMgmt } from './global-state';
 import Router from './router';
 
-let tokenStore;
-
-if (c.USE_TOKEN_VAULT) {
-  // Initialize Token Vault Client and register Interceptor, Proxy and Store
-  const register = client({
-    app: {
-      origin: c.TOKEN_VAULT_APP_ORIGIN,
-    },
-    interceptor: {
-      file: new URL(c.TOKEN_VAULT_INTERCEPTOR_FILE, import.meta.url).pathname,
-      scope: c.TOKEN_VAULT_INTERCEPTOR_SCOPE,
-    },
-    proxy: {
-      origin: c.TOKEN_VAULT_PROXY_ORIGIN,
-    },
-  });
-
-  // Register the Token Vault Interceptor
-  await register.interceptor();
-
-  // Register the Token Vault Proxy
-  await register.proxy(document.getElementById('token-vault') as HTMLElement);
-
-  // Register the Token Vault Store
-  tokenStore = register.store();
-}
-
-/** ***************************************************************************
- * SDK INTEGRATION POINT
- * Summary: Configure the SDK
- * ----------------------------------------------------------------------------
- * Details: Below, you will see the following settings:
- * - clientId: (OAuth 2.0 only) this is the OAuth 2.0 client you created in ForgeRock, such as `ForgeRockSDKClient`
- * - redirectUri: (OAuth 2.0 only) this is the URI/URL of this app to which the
- *   OAuth 2.0 flow redirects
- * - scope: (OAuth 2.0 only) these are the OAuth scopes that you will request from
- *   ForgeRock
- * - serverConfig: this includes the baseUrl of your ForgeRock AM, and should
- *   include the deployment path at the end, such as `/am/` or `/openam/`
- * - realmPath: this is the realm to use within ForgeRock. such as `alpha` or `root`
- * - tree: The authentication journey/tree to use, such as `sdkAuthenticationTree`
- *************************************************************************** */
-Config.set({
-  clientId: c.WEB_OAUTH_CLIENT,
-  redirectUri: c.REDIRECT_URI,
-  scope: c.OAUTH_SCOPE,
-  serverConfig: {
-    baseUrl: c.AM_URL,
-    timeout: c.TIMEOUT,
-  },
-  realmPath: c.REALM_PATH,
-  ...(c.USE_TOKEN_VAULT && { tokenStore }),
-});
-
 /**
  * Initialize the React application
  */
 (async function initAndHydrate() {
+  let tokenStore;
+
+  // Is Token Vault enabled?
+  if (c.USE_TOKEN_VAULT) {
+    // Initialize Token Vault Client and register Interceptor, Proxy and Store
+    const register = client({
+      app: {
+        origin: c.TOKEN_VAULT_APP_ORIGIN,
+      },
+      interceptor: {
+        file: '/interceptor.js',
+        scope: '/',
+      },
+      proxy: {
+        origin: c.TOKEN_VAULT_PROXY_ORIGIN,
+      },
+    });
+
+    // Register the Token Vault Interceptor
+    await register.interceptor();
+
+    // Register the Token Vault Proxy
+    await register.proxy(document.getElementById('token-vault') as HTMLElement);
+
+    // Register the Token Vault Store
+    tokenStore = register.store();
+  }
+
+  /** ***************************************************************************
+   * SDK INTEGRATION POINT
+   * Summary: Configure the SDK
+   * ----------------------------------------------------------------------------
+   * Details: Below, you will see the following settings:
+   * - clientId: (OAuth 2.0 only) this is the OAuth 2.0 client you created in ForgeRock, such as `ForgeRockSDKClient`
+   * - redirectUri: (OAuth 2.0 only) this is the URI/URL of this app to which the
+   *   OAuth 2.0 flow redirects
+   * - scope: (OAuth 2.0 only) these are the OAuth scopes that you will request from
+   *   ForgeRock
+   * - serverConfig: this includes the baseUrl of your ForgeRock AM, and should
+   *   include the deployment path at the end, such as `/am/` or `/openam/`
+   * - realmPath: this is the realm to use within ForgeRock. such as `alpha` or `root`
+   * - tree: The authentication journey/tree to use, such as `sdkAuthenticationTree`
+   *************************************************************************** */
+  Config.set({
+    clientId: c.WEB_OAUTH_CLIENT,
+    redirectUri: c.REDIRECT_URI,
+    scope: c.OAUTH_SCOPE,
+    serverConfig: {
+      baseUrl: c.AM_URL,
+      timeout: c.TIMEOUT,
+    },
+    realmPath: c.REALM_PATH,
+    ...(c.USE_TOKEN_VAULT && { tokenStore }),
+  });
   /** *************************************************************************
    * SDK INTEGRATION POINT
    * Summary: Get OAuth/OIDC tokens from storage

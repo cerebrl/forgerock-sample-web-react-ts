@@ -8,9 +8,8 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { AppContext } from '../../../global-state';
 import { DeviceProfileCallback, FRDevice } from '@forgerock/javascript-sdk';
 import Loading from '../../utilities/loading';
 
@@ -27,8 +26,6 @@ export default function DeviceProfile({
   callback: DeviceProfileCallback;
 	onComplete: () => void;
 }) {
-  const [state] = useContext(AppContext);
-
   /** *************************************************************************
    * SDK INTEGRATION POINT
    * Summary: SDK callback methods for getting values

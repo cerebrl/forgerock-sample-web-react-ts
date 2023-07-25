@@ -17,8 +17,8 @@
     "serve:server": "npm run serve --workspace todo-api-server"
   },
   "dependencies": {
-    "@forgerock/javascript-sdk": "../forgerock-javascript-sdk/dist/packages/javascript-sdk",
-    "@forgerock/token-vault": "../forgerock-javascript-sdk/dist/packages/token-vault"
+    "@forgerock/javascript-sdk": "^4.1.2",
+    "@forgerock/token-vault": "^4.1.2"
   },
   "devDependencies": {
     "@types/node": "^20.3.2",

@@ -6,7 +6,7 @@ This sample code is provided "as is" and is not a supported product of ForgeRock
 
 ## Overview
 
-This sample/test app is intended to help demonstrate and test certain features of the JavaScript SDK within a more "real world" application.
+This sample/test app is intended to help demonstrate and test certain features of the TypeScript/JavaScript SDK within a more "real world" application.
 
 ## Requirements
 
@@ -31,19 +31,19 @@ Once you have the requirements above met, we can build and run the project.
 #### Create Your OAuth Clients
 
 1. Create a public (SPA) OAuth client for the web app:
-    1. Name: `WebOAuthClient`
-    2. NO secret
-    3. Sign-in URL or Redirect URL: `http://localhost:5173/login`
-    4. Scopes: `openid email`
-    5. Grant types: `Authorization Code` and `Refresh Token`
-    6. Implicit consent: _enabled_
-    7. Token authentication endpoint method: `none`
-    8. Response types: `code`, `token`, `id_token` and `refresh_token`
+   1. Name: `WebOAuthClient`
+   2. NO secret
+   3. Sign-in URL or Redirect URL: `http://localhost:5173/login`
+   4. Scopes: `openid email`
+   5. Grant types: `Authorization Code` and `Refresh Token`
+   6. Implicit consent: _enabled_
+   7. Token authentication endpoint method: `none`
+   8. Response types: `code`, `token`, `id_token` and `refresh_token`
 2. Create a confidential (Node.js) OAuth client for the API server:
-    1. Name: `RestOAuthClient`
-    2. ADD a client secret
-    3. Default scope: `am-introspect-all-tokens`
-    4. Token authentication endpoint method: `client_secret_basic`
+   1. Name: `RestOAuthClient`
+   2. ADD a client secret
+   3. Default scope: `am-introspect-all-tokens`
+   4. Token authentication endpoint method: `client_secret_basic`
 
 #### Choose Between Embedded or Central Login
 

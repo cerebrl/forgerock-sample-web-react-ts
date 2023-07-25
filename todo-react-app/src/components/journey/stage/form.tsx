@@ -135,6 +135,13 @@ export default function Form({
      * instructions for rendering the login form.
      */
     return <Loading message='Checking your session ...' />;
+  } else if (submittingForm) {
+    /**
+     * Since we are submitting the form, show a loading message to user.
+     * Doing this helps us better manage the inputs values and avoid using
+     * "controlled inputs".
+     */
+    return <Loading message='Submitting ...' />;
   } else if (renderStep.type === 'LoginSuccess') {
     /**
      * Since we have successfully authenticated, show a success message to

@@ -38,7 +38,6 @@ import Router from './router';
       },
       interceptor: {
         file: '/interceptor.js',
-        scope: '/',
       },
       proxy: {
         origin: c.TOKEN_VAULT_PROXY_ORIGIN,

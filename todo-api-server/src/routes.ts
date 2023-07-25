@@ -16,6 +16,9 @@ import { auth } from './middleware.js';
  * @return {void}
  */
 export default async function routes(app) {
+  app.get('/callback', (req, res) => {
+    res.status(200).send('Ok');
+  });
   /**
    * Protected route for initializing a new user.
    * The auth middleware checks for valid user auth.

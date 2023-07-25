@@ -97,7 +97,8 @@ export default function useJourneyHandler({
        * ensure we get fresh tokens, regardless of existing tokens.
        ************************************************************************* */
       try {
-        await TokenManager.getTokens({ forceRenew: true });
+        const tokens = await TokenManager.getTokens({ forceRenew: true });
+        console.info('Tokens: ', tokens);
       } catch (err) {
         console.info(`Error: get tokens; ${err}`);
       }

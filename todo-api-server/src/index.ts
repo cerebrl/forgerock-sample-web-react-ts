@@ -7,13 +7,13 @@
  * This software may be modified and distributed under the terms
  * of the MIT license. See the LICENSE file for details.
  */
-import cors from "cors";
-import express from "express";
-import cookieParser from "cookie-parser";
-import { createServer } from "http";
+import cors from 'cors';
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import { createServer } from 'http';
 
-import { AM_URL, PORT } from "./constants.js";
-import routes from "./routes.js";
+import { AM_URL, PORT } from './constants.js';
+import routes from './routes.js';
 
 /**
  * Create and configure Express
@@ -28,7 +28,7 @@ app.use(
       // DON'T DO THIS IN PRODUCTION!
       return callback(null, true);
     },
-  })
+  }),
 );
 
 /**
@@ -51,15 +51,15 @@ if (!AM_URL) {
   createServer(() => null).listen(PORT);
 
   console.error(
-    "ERROR: Missing .env value. Ensure you have an .env file within the dir of this sample app."
+    'ERROR: Missing .env value. Ensure you have an .env file within the dir of this sample app.',
   );
   console.error(
-    "Ensure you have a .env file with appropriate values and the proper security certificate and key."
+    'Ensure you have a .env file with appropriate values and the proper security certificate and key.',
   );
-  console.error("Please stop this process.");
+  console.error('Please stop this process.');
 } else {
   // Prod uses Nginx, so run regular server
-  console.log("Creating Node HTTP server");
+  console.log('Creating Node HTTP server');
   createServer(app).listen(PORT);
 
   console.log(`Node server listening on port: ${PORT}.`);

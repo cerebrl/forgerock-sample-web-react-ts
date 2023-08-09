@@ -39,32 +39,35 @@ export default function CentralLogin() {
       } else {
         await TokenManager.getTokens({ login: 'redirect' });
       }
-			// Get the current user
-			const user = await UserManager.getCurrentUser() as { name: string; email: string };
-			/**
-			 * First, let's see if we get a user back from useJourneyHandler.
-			 * If we do, let's set the user data and redirect back to home.
-			 */
-			if (user) {
-				/**
-				 * Set user state/info on "global state"
-				 */
-				methods.setUser(user?.name);
-				methods.setEmail(user.email);
-				methods.setAuthentication(true);
-			}
-			navigate('/');
+      // Get the current user
+      const user = (await UserManager.getCurrentUser()) as {
+        name: string;
+        email: string;
+      };
+      /**
+       * First, let's see if we get a user back from useJourneyHandler.
+       * If we do, let's set the user data and redirect back to home.
+       */
+      if (user) {
+        /**
+         * Set user state/info on "global state"
+         */
+        methods.setUser(user?.name);
+        methods.setEmail(user.email);
+        methods.setAuthentication(true);
+      }
+      navigate('/');
     }
 
     getTokens();
   }, []);
 
   return (
-    <div className='cstm_container_v-centered container-fluid d-flex align-items-center'>
-      <div className='w-100'>
+    <div className="cstm_container_v-centered container-fluid d-flex align-items-center">
+      <div className="w-100">
         <BackHome />
         <Card>
-          <Loading message='Checking your session ...' />
+          <Loading message="Checking your session ..." />
         </Card>
       </div>
     </div>

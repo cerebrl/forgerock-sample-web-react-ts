@@ -8,7 +8,7 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { FRCallback } from "@forgerock/javascript-sdk";
+import { type FRCallback } from '@forgerock/javascript-sdk';
 
 /**
  * @function Unknown- React component used for displaying Unknown callback

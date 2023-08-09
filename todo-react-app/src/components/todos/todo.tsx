@@ -57,50 +57,56 @@ export default function Todo({
 
   return (
     <li
-      className={`cstm_todo-item list-group-item list-group-item-action d-flex p-0 ${state.theme.textClass}`}>
-      <div className='flex-grow-1'>
+      className={`cstm_todo-item list-group-item list-group-item-action d-flex p-0 ${state.theme.textClass}`}
+    >
+      <div className="flex-grow-1">
         <input
           id={todo._id}
-          className='cstm_form-check form-check-input visually-hidden'
-          type='checkbox'
+          className="cstm_form-check form-check-input visually-hidden"
+          type="checkbox"
           defaultChecked={todo.completed}
           onChange={(e) => {
             completeTodo(todo._id, e.target.checked);
           }}
         />
         <label htmlFor={todo._id} className={todoClasses}>
-          <TodoIcon classes='me-2' completed={todo.completed} size='36px' />
+          <TodoIcon classes="me-2" completed={todo.completed} size="36px" />
           {todo.title}
         </label>
       </div>
 
       <div
-        className='dropdown text-end d-flex align-items-center'
-        aria-expanded='false'>
+        className="dropdown text-end d-flex align-items-center"
+        aria-expanded="false"
+      >
         <button
-          className='cstm_dropdown-actions btn h-auto'
-          data-bs-toggle='dropdown'
-          id={`todo_action_${todo._id}`}>
+          className="cstm_dropdown-actions btn h-auto"
+          data-bs-toggle="dropdown"
+          id={`todo_action_${todo._id}`}
+        >
           <ActionIcon />
         </button>
         <ul
           className={`dropdown-menu dropdown-menu-end shadow-sm ${state.theme.dropdownClass}`}
-          aria-labelledby={`todo_action_${todo._id}`}>
+          aria-labelledby={`todo_action_${todo._id}`}
+        >
           <li>
             <button
-              className='dropdown-item'
+              className="dropdown-item"
               onClick={() => setSelectedEditTodo(todo)}
-              data-bs-toggle='modal'
-              data-bs-target='#editModal'>
+              data-bs-toggle="modal"
+              data-bs-target="#editModal"
+            >
               Edit
             </button>
           </li>
           <li>
             <button
-              className='dropdown-item'
+              className="dropdown-item"
               onClick={() => setSelectedDeleteTodo(todo)}
-              data-bs-toggle='modal'
-              data-bs-target='#deleteModal'>
+              data-bs-toggle="modal"
+              data-bs-target="#deleteModal"
+            >
               Delete
             </button>
           </li>

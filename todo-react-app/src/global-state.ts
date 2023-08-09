@@ -35,14 +35,14 @@ type AppContextState = [
     setAuthentication: (value: boolean) => Promise<void>;
     setEmail: (value: string) => void;
     setUser: (value: string) => void;
-  }
+  },
 ];
-type GlobalStateArgs = {
+interface GlobalStateArgs {
   email: string | null;
   isAuthenticated: boolean;
   prefersDarkTheme: boolean;
   username: string | null;
-};
+}
 /**
  * @function useStateMgmt - The global state/store for managing user authentication and page
  * @param {Object} props - The object representing React's props
@@ -76,7 +76,7 @@ export function useGlobalStateMgmt({
    * @returns {void}
    */
   async function setAuthenticationWrapper(value: boolean) {
-    if (value === false) {
+    if (!value) {
       /** *********************************************************************
        * SDK INTEGRATION POINT
        * Summary: Logout, end session and revoke tokens
@@ -188,7 +188,9 @@ export const AppContext = React.createContext<AppContextState>([
     username: '',
   },
   {
-    setAuthentication: () => Promise.resolve(),
+    setAuthentication: async () => {
+      await Promise.resolve();
+    },
     setEmail: () => undefined,
     setUser: () => undefined,
   },

@@ -22,7 +22,7 @@ import { API_URL } from '../constants';
 export default async function apiRequest(
   resource: string,
   method: string,
-  data?: any
+  data?: any,
 ) {
   let json;
   try {

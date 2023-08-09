@@ -10,7 +10,10 @@
 
 import { useEffect } from 'react';
 
-import { DeviceProfileCallback, FRDevice } from '@forgerock/javascript-sdk';
+import {
+  type DeviceProfileCallback,
+  FRDevice,
+} from '@forgerock/javascript-sdk';
 import Loading from '../../utilities/loading';
 
 /**
@@ -21,10 +24,10 @@ import Loading from '../../utilities/loading';
  */
 export default function DeviceProfile({
   callback,
-	onComplete,
+  onComplete,
 }: {
   callback: DeviceProfileCallback;
-	onComplete: () => void;
+  onComplete: () => void;
 }) {
   /** *************************************************************************
    * SDK INTEGRATION POINT
@@ -46,7 +49,7 @@ export default function DeviceProfile({
 
       // Set the profile on the callback
       callback.setProfile(profile);
-			onComplete();
+      onComplete();
     }
     getDeviceProfile();
   }, []);

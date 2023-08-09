@@ -8,8 +8,8 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { TermsAndConditionsCallback } from '@forgerock/javascript-sdk';
-import { ChangeEvent } from 'react';
+import { type TermsAndConditionsCallback } from '@forgerock/javascript-sdk';
+import { type ChangeEvent } from 'react';
 
 /**
  * @function TermsConditions - React component used for displaying terms and conditions
@@ -46,18 +46,18 @@ export default function TermsConditions({
   }
 
   return (
-    <div className='form-check mb-4'>
+    <div className="form-check mb-4">
       <input
-        className='form-check-input'
+        className="form-check-input"
         defaultChecked={false}
         id={inputName}
         onChange={setValue}
-        type='checkbox'
+        type="checkbox"
       />
-      <label htmlFor={inputName} className='form-check-label'>
+      <label htmlFor={inputName} className="form-check-label">
         Please accept our below Terms and Conditions
         <details>
-          <summary className='fw-bold ps-1'>{termsStart}</summary>
+          <summary className="fw-bold ps-1">{termsStart}</summary>
           {terms}
         </details>
       </label>

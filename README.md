@@ -19,6 +19,8 @@ This sample/test app is intended to help demonstrate and test certain features o
 
 Once you have the requirements above met, we can build and run the project.
 
+Note: If you are doing a tutorial (like from one of our blogs), the values below may vary. Use the values found in the tutorial.
+
 ### Setup Your AM Instance
 
 #### Configure CORS
@@ -81,12 +83,12 @@ Example with annotations:
 
 ```text
 # System settings
-# Rour ForgeRock server, your application server & API (todos) server
+# Your ForgeRock server, your application server & API (todos) server
 VITE_AM_URL=<<<YOUR AM INSTANCE>>>
 VITE_APP_URL=http://localhost:5173
 VITE_API_URL=http://localhost:5174
 
-# AM settings for your React App
+# AM settings for your client app
 VITE_AM_JOURNEY_LOGIN=Login
 VITE_AM_JOURNEY_REGISTER=Registration
 VITE_AM_TIMEOUT=5000
@@ -95,25 +97,26 @@ VITE_AM_WEB_OAUTH_CLIENT=WebOAuthClient
 VITE_AM_WEB_OAUTH_SCOPE=openid email
 VITE_AM_WEB_OAUTH_REDIRECT_URI=http://localhost:5173/login
 
-# Additional app settings
-VITE_DEBUGGER_OFF=true # Not implemented yet
-VITE_DEVELOPMENT=true # Not implemented yet
-
 # AM settings for your API (todos) server
 AM_REST_OAUTH_CLIENT=RestOAuthClient
 AM_REST_OAUTH_SECRET=<<<YOUR SECRET>>>
 API_PORT=5174
-
-# Login UX settings
-VITE_EMBEDDED_LOGIN=true # Embedded or Central Login experience
-VITE_USE_LOGIN_WIDGET=false # Not implemented yet
-VITE_USE_TOKEN_VAULT=false # Increased security for OAuth token storage
 
 # Token Vault settings (if enabled)
 VITE_TOKEN_VAULT_APP_ORIGIN=http://localhost:5173
 VITE_TOKEN_VAULT_INTERCEPTOR_FILE=workers/interceptor.ts
 VITE_TOKEN_VAULT_INTERCEPTOR_SCOPE=/
 VITE_TOKEN_VAULT_PROXY_ORIGIN=http://localhost:5175
+
+# Login UX settings
+VITE_EMBEDDED_LOGIN=true # Embedded or Central Login experience
+VITE_USE_LOGIN_WIDGET=false # Not implemented yet
+VITE_USE_TOKEN_VAULT=false # Increased security for OAuth token storage
+
+# Additional app settings
+VITE_DEBUGGER_OFF=true # Not implemented yet
+VITE_DEVELOPMENT=true # Not implemented yet
+
 
 ```
 
@@ -138,8 +141,8 @@ npm run dev:app
 ```
 
 ```sh
-# In a separate terminal window, run the server command
-npm run dev:server
+# In a separate terminal window, run the api command
+npm run dev:api
 
 # Runs the API server on http://localhost:5174
 ```

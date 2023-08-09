@@ -92,7 +92,7 @@ import Router from './router';
   try {
     isAuthenticated = c.USE_TOKEN_VAULT
       ? !!(await tokenStore?.has())?.hasTokens
-      : !!(await TokenStorage.get());
+      : !((await TokenStorage.get()) == null);
   } catch (err) {
     console.error(`Error: token retrieval for hydration; ${err}`);
   }
@@ -101,7 +101,7 @@ import Router from './router';
    * Pull custom values from outside of the app to (re)hydrate state.
    */
   const prefersDarkTheme = window.matchMedia(
-    '(prefers-color-scheme: dark)'
+    '(prefers-color-scheme: dark)',
   ).matches;
   const email = window.sessionStorage.getItem('sdk_email');
   const username = window.sessionStorage.getItem('sdk_username');

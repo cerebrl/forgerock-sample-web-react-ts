@@ -14,7 +14,7 @@ import GithubIcon from '../../icons/github-icon';
 import GoogleIcon from '../../icons/google-icon';
 import LinkedInIcon from '../../icons/linkedin-icon';
 import { AppContext } from '../../../global-state';
-import { SelectIdPCallback } from '@forgerock/javascript-sdk';
+import { type SelectIdPCallback } from '@forgerock/javascript-sdk';
 import FacebookIcon from '../../icons/facebook-icon';
 
 export default function SelectIdp({
@@ -29,8 +29,8 @@ export default function SelectIdp({
   const providers = callback.getProviders();
 
   function getProviderIcon(provider: string) {
-		if (provider.includes('facebook')) {
-			return <FacebookIcon />;
+    if (provider.includes('facebook')) {
+      return <FacebookIcon />;
     } else if (provider.includes('github')) {
       return <GithubIcon />;
     } else if (provider.includes('google')) {
@@ -49,7 +49,7 @@ export default function SelectIdp({
   }
 
   return (
-    <div className='mt-4 mb-1'>
+    <div className="mt-4 mb-1">
       {providers.map((provider, idx) => {
         if (provider.provider === 'localAuthentication') {
           // don't render anything
@@ -59,17 +59,19 @@ export default function SelectIdp({
           <button
             onClick={(e) => {
               e.preventDefault();
-              return selectProvider(provider.provider, true);
+              selectProvider(provider.provider, true);
             }}
             className={`btn ${
               state.theme.mode === 'light'
                 ? 'btn-outline-secondary'
                 : 'btn-outline-dark'
             } w-100 my-2`}
-            key={idx}>
+            key={idx}
+          >
             {getProviderIcon(provider.provider)}
             <span
-              className={`${state.theme.textClass} ${state.theme.borderClass}`}>
+              className={`${state.theme.textClass} ${state.theme.borderClass}`}
+            >
               {provider.uiConfig?.buttonDisplayName}
             </span>
           </button>
@@ -79,12 +81,13 @@ export default function SelectIdp({
         className={`${state.theme.borderClass}`}
         style={{ position: 'relative', zIndex: 0 }}
       />
-      <div className='text-center pb-4' style={{ marginTop: '-30px' }}>
+      <div className="text-center pb-4" style={{ marginTop: '-30px' }}>
         <span
           className={`px-2 ${
             state.theme.cardBgClass ? state.theme.cardBgClass : 'bg-white'
           }`}
-          style={{ position: 'relative', zIndex: 1 }}>
+          style={{ position: 'relative', zIndex: 1 }}
+        >
           or
         </span>
       </div>

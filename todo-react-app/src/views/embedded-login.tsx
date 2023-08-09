@@ -25,16 +25,16 @@ export default function Login() {
   const [state] = useContext(AppContext);
   const bottomMessage = (
     <p className={`text-center text-secondary p-3 ${state.theme.textClass}`}>
-      Don’t have an account? <Link to='/register'>Sign up here!</Link>
+      Don’t have an account? <Link to="/register">Sign up here!</Link>
     </p>
   );
   return (
-    <div className='cstm_container_v-centered container-fluid d-flex align-items-center'>
-      <div className='w-100'>
+    <div className="cstm_container_v-centered container-fluid d-flex align-items-center">
+      <div className="w-100">
         <BackHome />
         <Card>
-          <div className='cstm_form-icon  align-self-center mb-3'>
-            <KeyIcon size='72px' />
+          <div className="cstm_form-icon  align-self-center mb-3">
+            <KeyIcon size="72px" />
           </div>
           <Form action={{ type: 'login' }} bottomMessage={bottomMessage} />
         </Card>

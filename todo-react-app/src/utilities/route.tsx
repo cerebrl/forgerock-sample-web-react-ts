@@ -9,7 +9,7 @@
  */
 
 import { UserManager } from '@forgerock/javascript-sdk';
-import { PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { type PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import Loading from '../components/utilities/loading';
@@ -21,7 +21,10 @@ import { AppContext } from '../global-state';
  * @param {function} setAuth - global state method for setting user authentication status
  * @returns {Array}
  */
-function useAuthValidation(auth: boolean, setAuth: (auth: boolean) => Promise<void>) {
+function useAuthValidation(
+  auth: boolean,
+  setAuth: (auth: boolean) => Promise<void>,
+) {
   /**
    * React state "hook"
    *

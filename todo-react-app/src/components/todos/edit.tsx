@@ -8,10 +8,16 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { Dispatch, FormEvent, MouseEvent, useContext, useRef } from 'react';
+import {
+  type Dispatch,
+  type FormEvent,
+  type MouseEvent,
+  useContext,
+  useRef,
+} from 'react';
 
 import { AppContext } from '../../global-state';
-import { TodoItem } from './todo';
+import { type TodoItem } from './todo';
 
 /**
  * @function Edit - Used for a single todo for edit within a modal popup
@@ -27,9 +33,7 @@ export default function Edit({
   editTodo,
 }: {
   selectedEditTodo: TodoItem | undefined;
-  setSelectedEditTodo: Dispatch<
-    React.SetStateAction<TodoItem | undefined>
-  >;
+  setSelectedEditTodo: Dispatch<React.SetStateAction<TodoItem | undefined>>;
   editTodo: ({ _id, title }: TodoItem) => Promise<void>;
 }) {
   const [state] = useContext(AppContext);
@@ -44,7 +48,7 @@ export default function Edit({
   }
 
   function clickSubmit(
-    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) {
     event.preventDefault();
     if (!selectedEditTodo) return;
@@ -60,49 +64,60 @@ export default function Edit({
 
   return (
     <div
-      className={`modal fade`}
-      data-bs-backdrop='static'
-      id='editModal'
+      className={'modal fade'}
+      data-bs-backdrop="static"
+      id="editModal"
       tabIndex={-1}
-      aria-modal='true'
-      role='dialog'>
-      <div className={`modal-dialog`}>
+      aria-modal="true"
+      role="dialog"
+    >
+      <div className={'modal-dialog'}>
         <div
-          className={`modal-content  ${state.theme.cardBgClass} ${state.theme.textClass} ${state.theme.borderClass}`}>
+          className={`modal-content  ${state.theme.cardBgClass} ${state.theme.textClass} ${state.theme.borderClass}`}
+        >
           <div className={`modal-header ${state.theme.borderClass}`}>
             <h4 className={`modal-title ${state.theme.textClass}`}>
               Edit Todo
             </h4>
           </div>
-          <form onSubmit={(event) => formSubmit(event)} className='modal-body'>
-            <div className='cstm_todos-input cstm_form-floating form-floating flex-grow-1'>
+          <form
+            onSubmit={(event) => {
+              formSubmit(event);
+            }}
+            className="modal-body"
+          >
+            <div className="cstm_todos-input cstm_form-floating form-floating flex-grow-1">
               <input
-                id='editTodo'
-                type='text'
+                id="editTodo"
+                type="text"
                 className={`cstm_form-control form-control bg-transparent ${state.theme.textClass} ${state.theme.borderClass}`}
                 value={selectedEditTodo ? selectedEditTodo.title : ''}
                 onChange={updateTitle}
                 ref={textInput}
                 required={true}
               />
-              <label htmlFor='newTodo'>Update todo text</label>
+              <label htmlFor="newTodo">Update todo text</label>
             </div>
           </form>
           <div className={`modal-footer ${state.theme.borderClass}`}>
             <button
-              id='closeEditModalBtn'
-              type='button'
-              data-bs-toggle='modal'
-              data-bs-target='#editModal'
-              className='btn btn-secondary'>
+              id="closeEditModalBtn"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#editModal"
+              className="btn btn-secondary"
+            >
               Close
             </button>
             <button
-              type='button'
-              data-bs-toggle='modal'
-              data-bs-target='#editModal'
-              className='btn btn-primary'
-              onClick={(event) => clickSubmit(event)}>
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#editModal"
+              className="btn btn-primary"
+              onClick={(event) => {
+                clickSubmit(event);
+              }}
+            >
               Update Todo
             </button>
           </div>

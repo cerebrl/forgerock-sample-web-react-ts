@@ -8,10 +8,10 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { ChangeEvent, useContext } from 'react';
+import { type ChangeEvent, useContext } from 'react';
 
 import { AppContext } from '../../../global-state';
-import { ChoiceCallback } from '@forgerock/javascript-sdk';
+import { type ChoiceCallback } from '@forgerock/javascript-sdk';
 
 /**
  * @function Choice - React component used for displaying choices
@@ -55,12 +55,13 @@ export default function Choice({
   }
 
   return (
-    <div className='cstm_form-floating form-floating mb-3'>
+    <div className="cstm_form-floating form-floating mb-3">
       <select
         onChange={setValue}
         id={inputName}
-        name='selected'
-        className={`cstm_form-select form-select bg-transparent ${state.theme.textClass} ${state.theme.borderClass}`}>
+        name="selected"
+        className={`cstm_form-select form-select bg-transparent ${state.theme.textClass} ${state.theme.borderClass}`}
+      >
         {choiceOptions.map(function (option: string, idx: number) {
           return (
             <option key={idx} value={idx} selected={idx === defaultChoice}>

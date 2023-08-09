@@ -11,7 +11,7 @@
 import { useEffect } from 'react';
 
 import {
-  FRStep,
+  type FRStep,
   FRWebAuthn,
   WebAuthnStepType,
 } from '@forgerock/javascript-sdk';

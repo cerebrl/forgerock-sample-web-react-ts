@@ -17,18 +17,20 @@ export default function Button({
 }) {
   return (
     <button
-      type='submit'
-      className='btn btn-primary w-100'
-      disabled={submittingForm}>
+      type="submit"
+      className="btn btn-primary w-100"
+      disabled={submittingForm}
+    >
       {
         /**
          * Render a small spinner during submission calls
          */
         submittingForm ? (
           <span
-            className='spinner-border spinner-border-sm'
-            role='status'
-            aria-hidden='true'></span>
+            className="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
         ) : null
       }
       <span> {buttonText}</span>

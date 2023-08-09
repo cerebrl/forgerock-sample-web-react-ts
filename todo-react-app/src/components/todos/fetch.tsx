@@ -38,7 +38,8 @@ export default function useTodoFetch(
 
       // TODO: improve error handling
       if (fetchedTodos.error) {
-        return navigate('/login');
+        navigate('/login');
+        return;
       }
       setFetched(true);
       dispatch({ type: 'init-todos', payload: { todos: fetchedTodos } });

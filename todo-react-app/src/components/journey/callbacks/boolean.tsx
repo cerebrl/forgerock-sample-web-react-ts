@@ -9,8 +9,8 @@
  */
 
 // Import libraries
-import { AttributeInputCallback } from '@forgerock/javascript-sdk';
-import { ChangeEvent } from 'react';
+import { type AttributeInputCallback } from '@forgerock/javascript-sdk';
+import { type ChangeEvent } from 'react';
 
 /**
  * @function Boolean - React component used for displaying checkboxes
@@ -46,15 +46,15 @@ export default function Boolean({
     callback.setInputValue((event.target as HTMLInputElement)?.checked);
   }
   return (
-    <div className='form-check mb-3'>
+    <div className="form-check mb-3">
       <input
-        className='form-check-input'
-        defaultChecked={value ? true : false}
+        className="form-check-input"
+        defaultChecked={!!value}
         id={inputName}
         onChange={setValue}
-        type='checkbox'
+        type="checkbox"
       />
-      <label htmlFor={inputName} className='form-check-label'>
+      <label htmlFor={inputName} className="form-check-label">
         {prompt}
       </label>
     </div>

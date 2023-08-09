@@ -1,16 +1,16 @@
 {
-	"name": "token-vault-proxy",
+  "name": "token-vault-proxy",
   "private": true,
-	"version": "1.0.0",
-	"description": "The proxy for token vault",
-	"main": "index.js",
+  "version": "1.0.0",
+  "description": "The proxy for token vault",
+  "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview --port 5175"
   },
-	"author": "Justin Lowery",
-	"dependencies": {},
-	"devDependencies": {},
-	"license": "MIT"
+  "author": "Justin Lowery",
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "MIT"
 }

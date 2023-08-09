@@ -5,16 +5,16 @@
   "type": "module",
   "scripts": {
     "clean": "git clean -fdX -e \"!.env\"",
+    "build:api": "npm run build --workspace todo-api-server",
     "build:app": "npm run build --workspace todo-react-app",
     "build:proxy": "npm run build --workspace token-vault-proxy",
-    "build:server": "npm run build --workspace todo-api-server",
+    "dev:api": "npm run dev --workspace todo-api-server",
     "dev:app": "npm run dev --workspace todo-react-app",
     "dev:proxy": "npm run dev --workspace token-vault-proxy",
-    "dev:server": "npm run dev --workspace todo-api-server",
-    "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint ./ --fix",
+    "serve:api": "npm run serve --workspace todo-api-server",
     "serve:app": "npm run serve --workspace todo-react-app",
-    "serve:proxy": "npm run serve --workspace token-vault-proxy",
-    "serve:server": "npm run serve --workspace todo-api-server"
+    "serve:proxy": "npm run serve --workspace token-vault-proxy"
   },
   "dependencies": {
     "@forgerock/javascript-sdk": "^4.1.2",
@@ -22,10 +22,15 @@
   },
   "devDependencies": {
     "@types/node": "^20.3.2",
-    "@typescript-eslint/eslint-plugin": "^5.59.0",
-    "@typescript-eslint/parser": "^5.59.0",
-    "eslint": "^8.38.0",
-    "typescript": "^5.0.2"
+    "@typescript-eslint/eslint-plugin": "^6.2.1",
+    "@typescript-eslint/parser": "^6.2.1",
+    "eslint": "^8.46.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "prettier": "^3.0.1",
+    "typescript": "^5.1.6"
   },
   "workspaces": [
     "token-vault-proxy",

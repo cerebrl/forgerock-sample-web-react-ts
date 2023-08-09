@@ -8,11 +8,11 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { ChangeEvent, Fragment, useContext } from 'react';
+import { type ChangeEvent, Fragment, useContext } from 'react';
 
 import { AppContext } from '../../../global-state';
 import LockIcon from '../../icons/lock-icon';
-import { KbaCreateCallback } from '@forgerock/javascript-sdk';
+import { type KbaCreateCallback } from '@forgerock/javascript-sdk';
 
 /**
  * @function Kba - React component used for displaying KBA security question
@@ -70,20 +70,22 @@ export default function Kba({
     <Fragment>
       <hr className={`cstm_hr d-flex mt-5 ${state.theme.textClass}`} />
       <div
-        className={`cstm_hr-lock_${state.theme.mode} d-flex justify-content-center`}>
+        className={`cstm_hr-lock_${state.theme.mode} d-flex justify-content-center`}
+      >
         <LockIcon />
       </div>
       <h2 className={`fs-6 mt-5 fw-normal ${state.theme.textClass}`}>
         Provide security question(s) & answer(s) below
       </h2>
-      <div className='cstm_form-floating form-floating mb-3'>
+      <div className="cstm_form-floating form-floating mb-3">
         <select
           className={`cstm_form-select form-select bg-transparent ${state.theme.textClass} ${state.theme.borderClass}`}
           id={inputNameQuestion}
           name={inputNameQuestion}
           onChange={setQuestion}
-          required={true}>
-          <option value=''>No selection</option>
+          required={true}
+        >
+          <option value="">No selection</option>
           {questions.map((question, idx) => {
             return (
               <option key={idx} value={idx}>
@@ -97,15 +99,16 @@ export default function Kba({
       <div
         className={`cstm_form-floating form-floating pb-5 mb-5 border-bottom pb-3 ${
           state.theme.mode === 'dark' ? 'border-white' : 'border-secondary'
-        }`}>
+        }`}
+      >
         <input
           className={`cstm_form-control form-control bg-transparent ${state.theme.textClass} ${state.theme.borderClass}`}
           id={inputNameAnswer}
           name={inputNameAnswer}
           onChange={setAnswer}
-          placeholder='Security Answer'
+          placeholder="Security Answer"
           required={true}
-          type='text'
+          type="text"
         />
         <label htmlFor={inputNameAnswer}>Security Answer</label>
       </div>

@@ -10,8 +10,8 @@
 
 import {
   CallbackType,
-  DeviceProfileCallback,
-  FRStep,
+  type DeviceProfileCallback,
+  type FRStep,
   FRWebAuthn,
 } from '@forgerock/javascript-sdk';
 import React, { Fragment, useEffect, useContext, useReducer } from 'react';
@@ -44,7 +44,7 @@ export default function Form({
 }: {
   action: { type: string };
   bottomMessage?: React.JSX.Element | string;
-  followUp?: () => void;
+  followUp?: () => Promise<void>;
   topMessage?: React.JSX.Element | string;
 }) {
   /**
@@ -68,8 +68,8 @@ export default function Form({
   const stateParam = params.get('state');
   const formPostEntryParam = params.get('form_post_entry');
 
-  let resumeUrl  = '';
-  if ((codeParam && stateParam) && formPostEntryParam) {
+  let resumeUrl = '';
+  if (codeParam && stateParam && formPostEntryParam) {
     resumeUrl = window.location.href;
   }
 
@@ -100,7 +100,7 @@ export default function Form({
         methods.setAuthentication(true);
 
         // Run follow-up function if present
-        followUp && (await followUp());
+        followUp != null && (await followUp());
 
         // Redirect back to the home page
         navigate('/');
@@ -110,9 +110,7 @@ export default function Form({
     finalizeAuthState();
 
     // Only `user` is a needed dependency, all others are "stable"
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
-
 
   function isDeviceProfileCallback(step: FRStep) {
     const isIt = step.getCallbacksOfType(CallbackType.DeviceProfileCallback);
@@ -134,28 +132,31 @@ export default function Form({
      * Since there is no step information we need to call AM to retrieve the
      * instructions for rendering the login form.
      */
-    return <Loading message='Checking your session ...' />;
+    return <Loading message="Checking your session ..." />;
   } else if (submittingForm) {
     /**
      * Since we are submitting the form, show a loading message to user.
      * Doing this helps us better manage the inputs values and avoid using
      * "controlled inputs".
      */
-    return <Loading message='Submitting ...' />;
+    return <Loading message="Submitting ..." />;
   } else if (renderStep.type === 'LoginSuccess') {
     /**
      * Since we have successfully authenticated, show a success message to
      * user while we complete the process and redirect to home page.
      */
-    return <Loading message='Success! Redirecting ...' />;
-  } else if (renderStep.type === 'Step' && isDeviceProfileCallback(renderStep)) {
+    return <Loading message="Success! Redirecting ..." />;
+  } else if (
+    renderStep.type === 'Step' &&
+    isDeviceProfileCallback(renderStep)
+  ) {
     return (
       <Fragment>
-        <form className='cstm_form'>
+        <form className="cstm_form">
           <DeviceProfile
             callback={
               renderStep.getCallbackOfType(
-                CallbackType.DeviceProfileCallback
+                CallbackType.DeviceProfileCallback,
               ) as DeviceProfileCallback
             }
             onComplete={() => {
@@ -171,10 +172,9 @@ export default function Form({
     FRWebAuthn.getWebAuthnStepType(renderStep)
   ) {
     return (
-    <Fragment>
-      <form className='cstm_form'>
-      </form>
-    </Fragment>
+      <Fragment>
+        <form className="cstm_form"></form>
+      </Fragment>
     );
   } else if (renderStep.type === 'Step') {
     /**
@@ -188,16 +188,17 @@ export default function Form({
         </h1>
         {topMessage}
         <form
-          className='cstm_form'
+          className="cstm_form"
           onSubmit={(event) => {
             event.preventDefault();
             // Indicate form processing
             setSubmittingForm(true);
             // set currently rendered step as step to be submitted
             setSubmissionStep(renderStep);
-          }}>
+          }}
+        >
           {formFailureMessage ? (
-            <Alert message={formFailureMessage} type='error' />
+            <Alert message={formFailureMessage} type="error" />
           ) : null}
           {
             /**
@@ -221,7 +222,7 @@ export default function Form({
     return (
       <Alert
         message={renderStep.payload.message || 'Unknown error occurred.'}
-        type='error'
+        type="error"
       />
     );
   }

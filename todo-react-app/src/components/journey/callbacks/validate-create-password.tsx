@@ -8,11 +8,14 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { ChangeEvent, useContext, useState } from 'react';
+import { type ChangeEvent, useContext, useState } from 'react';
 
 import { AppContext } from '../../../global-state';
 import EyeIcon from '../../icons/eye-icon';
-import { PolicyRequirement, ValidatedCreatePasswordCallback } from '@forgerock/javascript-sdk';
+import {
+  type PolicyRequirement,
+  type ValidatedCreatePasswordCallback,
+} from '@forgerock/javascript-sdk';
 
 /**
  * @function Password - React component used for displaying password callback
@@ -74,25 +77,30 @@ export default function ValidatedCreatePassword({
 
   if (errorMessage) {
     validationClass = 'is-invalid';
-    Validation = <div className='invalid-feedback'>{errorMessage}</div>;
+    Validation = <div className="invalid-feedback">{errorMessage}</div>;
   }
 
-  if (failedPolicies && failedPolicies.length) {
-    const validationFailure = failedPolicies.reduce<string>((prev, curr: PolicyRequirement): string => {
-      switch (curr.policyRequirement) {
-        case 'LENGTH_BASED':
-          prev = `${prev}Ensure password contains more than ${curr.params && curr.params['min-password-length']} characters. `;
-          break;
-        case 'CHARACTER_SET':
-          prev = `${prev}Ensure password contains 1 of each: capital letter, number and special character. `;
-          break;
-        default:
-          prev = `${prev}Please check this value for correctness.`;
-      }
-      return prev;
-    }, '');
+  if (failedPolicies && failedPolicies.length > 0) {
+    const validationFailure = failedPolicies.reduce<string>(
+      (prev, curr: PolicyRequirement): string => {
+        switch (curr.policyRequirement) {
+          case 'LENGTH_BASED':
+            prev = `${prev}Ensure password contains more than ${
+              curr.params != null && curr.params['min-password-length']
+            } characters. `;
+            break;
+          case 'CHARACTER_SET':
+            prev = `${prev}Ensure password contains 1 of each: capital letter, number and special character. `;
+            break;
+          default:
+            prev = `${prev}Please check this value for correctness.`;
+        }
+        return prev;
+      },
+      '',
+    );
     validationClass = 'is-invalid';
-    Validation = <div className='invalid-feedback'>{validationFailure}</div>;
+    Validation = <div className="invalid-feedback">{validationFailure}</div>;
   }
 
   if (policies?.policyRequirements) {
@@ -102,10 +110,10 @@ export default function ValidatedCreatePassword({
   }
 
   return (
-    <div className='cstm_form-floating input-group form-floating mb-3'>
+    <div className="cstm_form-floating input-group form-floating mb-3">
       <input
         className={`cstm_input-password form-control ${
-          validationClass ? validationClass : ''
+          validationClass || ''
         } border-end-0 bg-transparent ${state.theme.textClass} ${
           state.theme.borderClass
         }`}
@@ -120,7 +128,8 @@ export default function ValidatedCreatePassword({
       <button
         className={`cstm_input-icon border-start-0 input-group-text bg-transparent ${state.theme.textClass} ${state.theme.borderClass}`}
         onClick={toggleVisibility}
-        type='button'>
+        type="button"
+      >
         <EyeIcon visible={isVisible} />
       </button>
       {Validation}

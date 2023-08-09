@@ -8,7 +8,7 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { TodoItem } from './todo';
+import { type TodoItem } from './todo';
 
 /**
  * @function reducer - A simple reducer for managing the state of todos
@@ -20,7 +20,7 @@ import { TodoItem } from './todo';
  */
 export default function reducer(
   state: TodoItem[],
-  action: { type: string; payload: any }
+  action: { type: string; payload: any },
 ) {
   switch (action.type) {
     case 'init-todos':

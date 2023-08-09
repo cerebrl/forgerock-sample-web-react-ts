@@ -8,10 +8,10 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { ChangeEvent, useContext } from 'react';
+import { type ChangeEvent, useContext } from 'react';
 
 import { AppContext } from '../../../global-state';
-import { AttributeInputCallback } from '@forgerock/javascript-sdk';
+import { type AttributeInputCallback } from '@forgerock/javascript-sdk';
 
 /**
  * @function Text- React component used for displaying text callback
@@ -37,7 +37,7 @@ export default function Text({
    ************************************************************************* */
   const existingValue =
     typeof callback.getInputValue() === 'string'
-      ? callback.getInputValue() as string
+      ? (callback.getInputValue() as string)
       : '';
   const failedPolicies =
     callback.getFailedPolicies && callback.getFailedPolicies();
@@ -79,7 +79,7 @@ export default function Text({
       return prev;
     }, '');
     validationClass = 'is-invalid';
-    Validation = <div className='invalid-feedback'>{validationFailure}</div>;
+    Validation = <div className="invalid-feedback">{validationFailure}</div>;
   }
 
   if (policies?.policyRequirements) {
@@ -89,7 +89,7 @@ export default function Text({
   }
 
   return (
-    <div className={`cstm_form-floating form-floating mb-3`}>
+    <div className={'cstm_form-floating form-floating mb-3'}>
       <input
         className={`cstm_form-control form-control ${validationClass} bg-transparent ${state.theme.textClass} ${state.theme.borderClass}`}
         defaultValue={existingValue}
@@ -98,7 +98,7 @@ export default function Text({
         onChange={setValue}
         placeholder={textInputLabel}
         required={isRequired}
-        type={stringAttributeName == 'mail' ? 'email' : 'text'}
+        type={stringAttributeName === 'mail' ? 'email' : 'text'}
       />
       <label htmlFor={inputName}>{textInputLabel}</label>
       {Validation}

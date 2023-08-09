@@ -21,6 +21,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["todo-api-server", "token-vault-proxy", "todo-react-app"],
+  "include": [
+    "todo-api-server/src/**/*",
+    "token-vault-proxy/src/**/*",
+    "todo-react-app/src/**/*"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -8,11 +8,11 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { ChangeEvent, useContext, useState } from 'react';
+import { type ChangeEvent, useContext, useState } from 'react';
 
 import { AppContext } from '../../../global-state';
 import EyeIcon from '../../icons/eye-icon';
-import { PasswordCallback } from '@forgerock/javascript-sdk';
+import { type PasswordCallback } from '@forgerock/javascript-sdk';
 
 /**
  * @function Password - React component used for displaying password callback
@@ -71,14 +71,14 @@ export default function Password({
 
   if (errorMessage) {
     validationClass = 'is-invalid';
-    Validation = <div className='invalid-feedback'>{errorMessage}</div>;
+    Validation = <div className="invalid-feedback">{errorMessage}</div>;
   }
 
   return (
-    <div className='cstm_form-floating input-group form-floating mb-3'>
+    <div className="cstm_form-floating input-group form-floating mb-3">
       <input
         className={`cstm_input-password form-control ${
-          validationClass ? validationClass : ''
+          validationClass || ''
         } border-end-0 bg-transparent ${state.theme.textClass} ${
           state.theme.borderClass
         }`}
@@ -93,7 +93,8 @@ export default function Password({
       <button
         className={`cstm_input-icon border-start-0 input-group-text bg-transparent ${state.theme.textClass} ${state.theme.borderClass}`}
         onClick={toggleVisibility}
-        type='button'>
+        type="button"
+      >
         <EyeIcon visible={isVisible} />
       </button>
       {Validation}

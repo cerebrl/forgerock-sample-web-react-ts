@@ -25,12 +25,12 @@ type JourneyState = [
     formFailureMessage: string | null;
     renderStep: FRStep | FRLoginFailure | FRLoginSuccess | undefined;
     submittingForm: boolean;
-    user: { name: string, email: string } | undefined;
+    user: { name: string; email: string } | undefined;
   },
   {
     setSubmissionStep: Dispatch<React.SetStateAction<FRStep | undefined>>;
     setSubmittingForm: Dispatch<React.SetStateAction<boolean>>;
-  }
+  },
 ];
 
 /**
@@ -61,7 +61,7 @@ export default function useJourneyHandler({
    */
   // Form level errors
   const [formFailureMessage, setFormFailureMessage] = useState<string | null>(
-    null
+    null,
   );
   // Step to render
   const [renderStep, setRenderStep] = useState<
@@ -69,13 +69,13 @@ export default function useJourneyHandler({
   >(undefined);
   // Step to submit
   const [submissionStep, setSubmissionStep] = useState<FRStep | undefined>(
-    undefined
+    undefined,
   );
   // Processing submission
   const [submittingForm, setSubmittingForm] = useState(false);
   // User state
-  const [user, setUser] = useState<{ name: string, email: string} | undefined>(
-    undefined
+  const [user, setUser] = useState<{ name: string; email: string } | undefined>(
+    undefined,
   );
 
   /**
@@ -112,7 +112,10 @@ export default function useJourneyHandler({
        * user info in the UI.
        ********************************************************************* */
       try {
-        const user = (await UserManager.getCurrentUser()) as { name: string, email: string };
+        const user = (await UserManager.getCurrentUser()) as {
+          name: string;
+          email: string;
+        };
         setUser(user);
       } catch (err) {
         console.error(`Error: get current user; ${err}`);

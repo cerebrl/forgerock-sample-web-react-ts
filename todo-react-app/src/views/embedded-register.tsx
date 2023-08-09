@@ -26,21 +26,21 @@ export default function Register() {
   const [state] = useContext(AppContext);
   const topMessage = (
     <p className={`text-center text-secondary pb-2 ${state.theme.textClass}`}>
-      Already have an account? <Link to='/login'>Sign in here!</Link>
+      Already have an account? <Link to="/login">Sign in here!</Link>
     </p>
   );
 
   async function initUserInDb() {
-    await apiRequest(`users`, 'POST');
+    await apiRequest('users', 'POST');
   }
 
   return (
-    <div className='cstm_container_v-centered container-fluid d-flex align-items-center'>
-      <div className='w-100'>
+    <div className="cstm_container_v-centered container-fluid d-flex align-items-center">
+      <div className="w-100">
         <BackHome />
         <Card>
-          <div className='cstm_form-icon align-self-center mb-3'>
-            <NewUserIcon size='72px' />
+          <div className="cstm_form-icon align-self-center mb-3">
+            <NewUserIcon size="72px" />
           </div>
           <Form
             action={{ type: 'register' }}

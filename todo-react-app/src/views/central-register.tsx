@@ -70,11 +70,11 @@ export default function CentralRegister() {
   }, []);
 
   return (
-    <div className='cstm_container_v-centered container-fluid d-flex align-items-center'>
-      <div className='w-100'>
+    <div className="cstm_container_v-centered container-fluid d-flex align-items-center">
+      <div className="w-100">
         <BackHome />
         <Card>
-          <Loading message='Checking your session ...' />
+          <Loading message="Checking your session ..." />
         </Card>
       </div>
     </div>

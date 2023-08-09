@@ -13,11 +13,11 @@ import { useContext, useRef, useState } from 'react';
 import apiRequest from '../../utilities/request';
 import { AppContext } from '../../global-state';
 
-type Todo = {
+interface Todo {
   _id: string;
   completed: boolean;
   title: string;
-};
+}
 
 /**
  * @function CreateTodo - React component for displaying the input and button pair for todo creation
@@ -25,7 +25,11 @@ type Todo = {
  * @param {Function} props.addTodo - The function that adds the todo to the local collection
  * @returns {Object} - React component object
  */
-export default function CreateTodo({ addTodo }: { addTodo: (todo: Todo) => void }) {
+export default function CreateTodo({
+  addTodo,
+}: {
+  addTodo: (todo: Todo) => void;
+}) {
   const [state] = useContext(AppContext);
 
   const [creatingTodo, setCreatingTodo] = useState(false);

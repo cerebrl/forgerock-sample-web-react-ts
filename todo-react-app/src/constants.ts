@@ -24,17 +24,22 @@ export const SESSION_URL = `${AM_URL}json/realms/root/sessions`;
 export const TIMEOUT = import.meta.env.VITE_AM_TIMEOUT;
 
 // Token Vault settings
-export const TOKEN_VAULT_APP_ORIGIN = import.meta.env.VITE_TOKEN_VAULT_APP_ORIGIN;
-export const TOKEN_VAULT_INTERCEPTOR_FILE = import.meta.env.VITE_TOKEN_VAULT_INTERCEPTOR_FILE;
-export const TOKEN_VAULT_INTERCEPTOR_SCOPE = import.meta.env.VITE_TOKEN_VAULT_INTERCEPTOR_SCOPE;
-export const TOKEN_VAULT_PROXY_ORIGIN = import.meta.env.VITE_TOKEN_VAULT_PROXY_ORIGIN;
+export const TOKEN_VAULT_APP_ORIGIN = import.meta.env
+  .VITE_TOKEN_VAULT_APP_ORIGIN;
+export const TOKEN_VAULT_INTERCEPTOR_FILE = import.meta.env
+  .VITE_TOKEN_VAULT_INTERCEPTOR_FILE;
+export const TOKEN_VAULT_INTERCEPTOR_SCOPE = import.meta.env
+  .VITE_TOKEN_VAULT_INTERCEPTOR_SCOPE;
+export const TOKEN_VAULT_PROXY_ORIGIN = import.meta.env
+  .VITE_TOKEN_VAULT_PROXY_ORIGIN;
 
 // Client settings
 // Yes, the debugger boolean is intentionally reversed
-export const DEBUGGER = import.meta.env.VITE_DEBUGGER_OFF === 'true' ? false : true;
-export const DEVELOPMENT = import.meta.env.VITE_DEVELOPMENT === 'true' ? true : false;
+export const DEBUGGER = import.meta.env.VITE_DEBUGGER_OFF !== 'true';
+export const DEVELOPMENT = import.meta.env.VITE_DEVELOPMENT === 'true';
 
 // UX settings
-export const EMBEDDED_LOGIN = import.meta.env.VITE_EMBEDDED_LOGIN === 'true' ? true : false;
-export const USE_LOGIN_WIDGET = import.meta.env.VITE_USE_LOGIN_WIDGET === 'true' ? true : false;
-export const USE_TOKEN_VAULT = import.meta.env.VITE_USE_TOKEN_VAULT === 'true' ? true : false;
+export const EMBEDDED_LOGIN = import.meta.env.VITE_EMBEDDED_LOGIN === 'true';
+export const USE_LOGIN_WIDGET =
+  import.meta.env.VITE_USE_LOGIN_WIDGET === 'true';
+export const USE_TOKEN_VAULT = import.meta.env.VITE_USE_TOKEN_VAULT === 'true';

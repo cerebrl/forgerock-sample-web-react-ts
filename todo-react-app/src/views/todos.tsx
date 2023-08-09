@@ -20,9 +20,8 @@ import DeleteModal from '../components/todos/delete';
 import EditModal from '../components/todos/edit';
 import useTodoFetch from '../components/todos/fetch';
 import reducer from '../components/todos/reducer';
-import Todo from '../components/todos/todo';
+import Todo, { type TodoItem } from '../components/todos/todo';
 import apiRequest from '../utilities/request';
-import { TodoItem } from '../components/todos/todo';
 
 /**
  * @function Todos - React view for retrieving & displaying todo collection
@@ -38,8 +37,12 @@ export default function Todos() {
   const [state] = useContext(AppContext);
   const [hasFetched, setFetched] = useState(false);
   const [todos, dispatch] = useReducer(reducer, []);
-  const [selectedDeleteTodo, setSelectedDeleteTodo] = useState<TodoItem | undefined>(undefined);
-  const [selectedEditTodo, setSelectedEditTodo] = useState<TodoItem | undefined>(undefined);
+  const [selectedDeleteTodo, setSelectedDeleteTodo] = useState<
+    TodoItem | undefined
+  >(undefined);
+  const [selectedEditTodo, setSelectedEditTodo] = useState<
+    TodoItem | undefined
+  >(undefined);
 
   useTodoFetch(dispatch, setFetched);
 
@@ -50,20 +53,17 @@ export default function Todos() {
   async function completeTodo(_id: string, completed: boolean) {
     dispatch({ type: 'complete-todo', payload: { _id, completed } });
     await apiRequest(`todos/${_id}`, 'POST', { completed });
-    return;
   }
 
   async function deleteTodo() {
     if (!selectedDeleteTodo) return;
     dispatch({ type: 'delete-todo', payload: { _id: selectedDeleteTodo._id } });
     await apiRequest(`todos/${selectedDeleteTodo._id}`, 'DELETE');
-    return;
   }
 
   async function editTodo({ _id, title }: TodoItem) {
     dispatch({ type: 'edit-todo', payload: { _id, title } });
     await apiRequest(`todos/${_id}`, 'POST', { title });
-    return;
   }
 
   /**
@@ -71,12 +71,14 @@ export default function Todos() {
    * or the Todos collection component.
    */
   const Todos = hasFetched ? (
-    <ul className={`list-group list-group-flush mb-1 ${state.theme.listGroupClass}`}>
+    <ul
+      className={`list-group list-group-flush mb-1 ${state.theme.listGroupClass}`}
+    >
       {/**
        * We we've fetched the todos, iterate over them for display.
        * If no todos were returned, show the "no todos" message.
        */}
-      {todos.length ? (
+      {todos.length > 0 ? (
         todos.map((item) => {
           return (
             <Todo
@@ -109,7 +111,7 @@ export default function Todos() {
 
   return (
     <Fragment>
-      <div className={`cstm_container container-fluid`}>
+      <div className={'cstm_container container-fluid'}>
         <h1 className={`mt-5 ${state.theme.textClass}`}>Your Todos</h1>
         <p className="fs-6 text-muted">Create and manage your todos.</p>
         <div className={`card shadow-sm mb-5 ${state.theme.cardBgClass}`}>

@@ -1,4 +1,4 @@
-# React JS Todo Sample App
+# Web Todo Sample App
 
 ## Disclaimers
 
@@ -87,6 +87,8 @@ Example with annotations:
 VITE_AM_URL=<<<YOUR AM INSTANCE>>>
 VITE_APP_URL=http://localhost:5173
 VITE_API_URL=http://localhost:5174
+VITE_PROXY_URL=http://localhost:5175 # required only for Token Vault
+VITE_LOCAL_HTTPS=true
 
 # AM settings for your client app
 VITE_AM_JOURNEY_LOGIN=Login
@@ -95,29 +97,20 @@ VITE_AM_TIMEOUT=5000
 VITE_AM_REALM_PATH=alpha
 VITE_AM_WEB_OAUTH_CLIENT=WebOAuthClient
 VITE_AM_WEB_OAUTH_SCOPE=openid email
-VITE_AM_WEB_OAUTH_REDIRECT_URI=http://localhost:5173/login
 
 # AM settings for your API (todos) server
+# (does not need VITE prefix)
 AM_REST_OAUTH_CLIENT=RestOAuthClient
 AM_REST_OAUTH_SECRET=<<<YOUR SECRET>>>
-API_PORT=5174
-
-# Token Vault settings (if enabled)
-VITE_TOKEN_VAULT_APP_ORIGIN=http://localhost:5173
-VITE_TOKEN_VAULT_INTERCEPTOR_FILE=workers/interceptor.ts
-VITE_TOKEN_VAULT_INTERCEPTOR_SCOPE=/
-VITE_TOKEN_VAULT_PROXY_ORIGIN=http://localhost:5175
 
 # Login UX settings
 VITE_EMBEDDED_LOGIN=true # Embedded or Central Login experience
 VITE_USE_LOGIN_WIDGET=false # Not implemented yet
 VITE_USE_TOKEN_VAULT=false # Increased security for OAuth token storage
 
-# Additional app settings
+# Developer settings
 VITE_DEBUGGER_OFF=true # Not implemented yet
 VITE_DEVELOPMENT=true # Not implemented yet
-
-
 ```
 
 ### Installing Dependencies and Run Build
@@ -135,7 +128,7 @@ You will have a minimum of two servers to run: one for the React app and one for
 
 ```sh
 # In one terminal window, run the following app command
-npm run dev:app
+npm run dev:react
 
 # Runs the React app server on http://localhost:5173
 ```

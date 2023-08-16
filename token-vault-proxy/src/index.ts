@@ -3,11 +3,10 @@ import { proxy } from '@forgerock/token-vault';
 // Initialize the token vault proxy
 proxy({
   app: {
-    origin: import.meta.env.VITE_TOKEN_VAULT_APP_ORIGIN,
+    origin: new URL(import.meta.env.VITE_APP_URL).origin,
   },
   forgerock: {
     clientId: import.meta.env.VITE_AM_WEB_OAUTH_CLIENT,
-    // oauthThreshold: 5000,
     scope: import.meta.env.VITE_AM_WEB_OAUTH_SCOPE,
     serverConfig: {
       baseUrl: import.meta.env.VITE_AM_URL,

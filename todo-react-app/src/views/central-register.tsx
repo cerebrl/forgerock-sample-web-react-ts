@@ -40,8 +40,8 @@ export default function CentralRegister() {
         await TokenManager.getTokens({
           login: 'redirect',
           /**
-           * Make sure you set `registration_tree` in the OAuth2 Provider service and
-           * point it to the `Registration` tree
+           * Make sure you set the `registration_tree` value for ACR value in the OAuth2 Provider service and
+           * point it to your registration journey defined in your ForgeRock server.
            */
           query: { acr_values: 'registration_tree' },
         });

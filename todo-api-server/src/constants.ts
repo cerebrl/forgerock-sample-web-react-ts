@@ -19,7 +19,7 @@ export const AM_URL = (() => {
     return process.env.VITE_AM_URL;
   } catch (err) {
     console.error(
-      'AM * ERROR: Missing .env value. Ensure you have an .env file within the dir of this sample app.',
+      'AM CONFIG ERROR: Missing .env value. Ensure you have an .env file within the root of this sample app.',
     );
     return '';
   }
@@ -29,6 +29,7 @@ export const CONFIDENTIAL_CLIENT = Buffer.from(
   `${process.env.AM_REST_OAUTH_CLIENT}:${process.env.AM_REST_OAUTH_SECRET}`,
 ).toString('base64');
 
-export const PORT = process.env.API_SERVER_PORT || 5174;
+const APP_URL = new URL(process.env.VITE_API_URL);
+export const PORT = Number(APP_URL.port) || 5174;
 
 export const REALM_PATH = process.env.VITE_AM_REALM_PATH;

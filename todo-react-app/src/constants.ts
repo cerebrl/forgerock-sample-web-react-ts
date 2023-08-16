@@ -12,6 +12,7 @@
 export const AM_URL = import.meta.env.VITE_AM_URL;
 export const APP_URL = import.meta.env.VITE_APP_URL;
 export const API_URL = import.meta.env.VITE_API_URL;
+export const PROXY_URL = import.meta.env.VITE_PROXY_URL;
 
 // AM settings
 export const JOURNEY_LOGIN = import.meta.env.VITE_AM_JOURNEY_LOGIN;
@@ -24,14 +25,8 @@ export const SESSION_URL = `${AM_URL}json/realms/root/sessions`;
 export const TIMEOUT = import.meta.env.VITE_AM_TIMEOUT;
 
 // Token Vault settings
-export const TOKEN_VAULT_APP_ORIGIN = import.meta.env
-  .VITE_TOKEN_VAULT_APP_ORIGIN;
-export const TOKEN_VAULT_INTERCEPTOR_FILE = import.meta.env
-  .VITE_TOKEN_VAULT_INTERCEPTOR_FILE;
-export const TOKEN_VAULT_INTERCEPTOR_SCOPE = import.meta.env
-  .VITE_TOKEN_VAULT_INTERCEPTOR_SCOPE;
-export const TOKEN_VAULT_PROXY_ORIGIN = import.meta.env
-  .VITE_TOKEN_VAULT_PROXY_ORIGIN;
+export const TOKEN_VAULT_APP_ORIGIN = new URL(APP_URL).origin;
+export const TOKEN_VAULT_PROXY_ORIGIN = new URL(PROXY_URL).origin;
 
 // Client settings
 // Yes, the debugger boolean is intentionally reversed

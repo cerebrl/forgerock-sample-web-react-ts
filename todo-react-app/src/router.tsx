@@ -28,7 +28,7 @@ let Login = CentralLogin;
 let Register = CentralRegister;
 
 // If embedded login is set, switch to the embedded views
-if (import.meta.env.VITE_EMBEDDED_LOGIN) {
+if (import.meta.env.VITE_EMBEDDED_LOGIN === 'true') {
   Login = EmbeddedLogin;
   Register = EmbeddedRegister;
 }

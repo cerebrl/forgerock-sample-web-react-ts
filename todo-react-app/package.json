@@ -5,8 +5,9 @@
   "description": "Sample React App with TypeScript",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "npm run build:interceptor && vite",
+    "build": "npm run build:interceptor && vite build",
+    "build:interceptor": "vite build -c ./vite.interceptor.config.ts",
     "serve": "vite preview --port 5173"
   },
   "dependencies": {

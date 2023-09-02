@@ -7,14 +7,18 @@
     "clean": "git clean -fdX -e \"!.env\" -e \"!*.pem\"",
     "build:api": "npm run build --workspace todo-api-server",
     "build:react": "npm run build --workspace todo-react-app",
+    "build:proxy": "npm run build --workspace token-vault-proxy",
     "dev:api": "npm run dev --workspace todo-api-server",
     "dev:react": "npm run dev --workspace todo-react-app",
+    "dev:proxy": "npm run dev --workspace token-vault-proxy",
     "lint": "eslint ./ --fix",
     "serve:api": "npm run serve --workspace todo-api-server",
-    "serve:react": "npm run serve --workspace todo-react-app"
+    "serve:react": "npm run serve --workspace todo-react-app",
+    "serve:proxy": "npm run serve --workspace token-vault-proxy"
   },
   "dependencies": {
-    "@forgerock/javascript-sdk": "^4.1.2"
+    "@forgerock/javascript-sdk": "^4.1.2",
+    "@forgerock/token-vault": "^4.1.2"
   },
   "devDependencies": {
     "@types/node": "^20.3.2",
@@ -30,6 +34,7 @@
   },
   "workspaces": [
     "todo-api-server",
-    "todo-react-app"
+    "todo-react-app",
+    "token-vault-proxy"
   ]
 }

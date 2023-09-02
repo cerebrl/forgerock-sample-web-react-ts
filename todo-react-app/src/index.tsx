@@ -10,7 +10,6 @@
 
 // Import libraries
 import { Config, TokenStorage } from '@forgerock/javascript-sdk';
-import { client } from '@forgerock/token-vault';
 import ReactDOM from 'react-dom/client';
 
 // Import bootstrap modules
@@ -27,33 +26,6 @@ import Router from './router';
  * Initialize the React application
  */
 (async function initAndHydrate() {
-  let tokenStore;
-
-  // Is Token Vault enabled?
-  if (c.USE_TOKEN_VAULT) {
-    // Initialize Token Vault Client and register Interceptor, Proxy and Store
-    const register = client({
-      app: {
-        origin: c.TOKEN_VAULT_APP_ORIGIN,
-      },
-      interceptor: {
-        file: '/interceptor.js',
-      },
-      proxy: {
-        origin: c.TOKEN_VAULT_PROXY_ORIGIN,
-      },
-    });
-
-    // Register the Token Vault Interceptor
-    await register.interceptor();
-
-    // Register the Token Vault Proxy
-    await register.proxy(document.getElementById('token-vault') as HTMLElement);
-
-    // Register the Token Vault Store
-    tokenStore = register.store();
-  }
-
   /** ***************************************************************************
    * SDK INTEGRATION POINT
    * Summary: Configure the SDK
@@ -78,7 +50,6 @@ import Router from './router';
       timeout: c.TIMEOUT,
     },
     realmPath: c.REALM_PATH,
-    ...(c.USE_TOKEN_VAULT && { tokenStore }),
   });
   /** *************************************************************************
    * SDK INTEGRATION POINT
@@ -90,9 +61,7 @@ import Router from './router';
    ************************************************************************* */
   let isAuthenticated = false;
   try {
-    isAuthenticated = c.USE_TOKEN_VAULT
-      ? !!(await tokenStore?.has())?.hasTokens
-      : !((await TokenStorage.get()) == null);
+    isAuthenticated = !((await TokenStorage.get()) == null);
   } catch (err) {
     console.error(`Error: token retrieval for hydration; ${err}`);
   }

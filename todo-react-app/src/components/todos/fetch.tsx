@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import apiRequest from '../../utilities/request';
+import { USE_LOGIN_WIDGET } from '../../constants';
 
 /**
  * @function useTodoFetch - A custom React hook for fetching todos from API
@@ -38,8 +39,10 @@ export default function useTodoFetch(
 
       // TODO: improve error handling
       if (fetchedTodos.error) {
-        navigate('/login');
-        return;
+        if (USE_LOGIN_WIDGET) {
+          return navigate('/'); // There's no dedicated login page, so go home
+        }
+        return navigate('/login');
       }
       setFetched(true);
       dispatch({ type: 'init-todos', payload: { todos: fetchedTodos } });

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/forgerock.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>ForgeRock: Terms & Conditions</title>
+
+    <!-- Set layer order first, before importing stylesheets -->
+    <style>
+      @layer app;
+
+      @layer 'fr-widget.base';
+      @layer 'fr-widget.utilities';
+      @layer 'fr-widget.components';
+      @layer 'fr-widget.variants';
+    </style>
+    <link rel="stylesheet" href="/src/styles/index.scss" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <script>
+      const prefersDarkTheme = window.matchMedia(
+        '(prefers-color-scheme: dark)',
+      ).matches;
+
+      if (prefersDarkTheme) {
+        document.body.classList.add('cstm_bg-dark', 'bg-dark');
+      }
+    </script>
+
+    <!-- Root div for mounting React app -->
+    <div id="root" class="cstm_root">
+      <div class="cstm_container container-fluid text-white">
+        <h1 class="cstm_head-text text-center text-white">
+          Terms & Conditions
+        </h1>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ipsum
+          suspendisse ultrices gravida dictum fusce ut placerat. Arcu felis
+          bibendum ut tristique. Suspendisse in est ante in nibh mauris cursus.
+          Tempor commodo ullamcorper a lacus. Nunc scelerisque viverra mauris in
+          aliquam sem fringilla ut morbi. Sagittis purus sit amet volutpat
+          consequat mauris nunc. Viverra orci sagittis eu volutpat odio. Tortor
+          aliquam nulla facilisi cras fermentum.
+        </p>
+        <p>
+          Urna neque viverra justo nec ultrices. Sollicitudin nibh sit amet
+          commodo nulla facilisi nullam. Nibh tellus molestie nunc non blandit
+          massa enim. Pellentesque habitant morbi tristique senectus. Massa
+          placerat duis ultricies lacus sed turpis. Gravida dictum fusce ut
+          placerat orci nulla pellentesque dignissim enim. Lacus vel facilisis
+          volutpat est. Arcu cursus vitae congue mauris rhoncus aenean vel. A
+          condimentum vitae sapien pellentesque habitant morbi tristique
+          senectus. Laoreet suspendisse interdum consectetur libero id faucibus
+          nisl. Arcu non sodales neque sodales. Orci eu lobortis elementum nibh.
+          Neque volutpat ac tincidunt vitae semper quis lectus. Viverra
+          suspendisse potenti nullam ac. Adipiscing elit duis tristique
+          sollicitudin nibh.
+        </p>
+        <p>
+          Tempor orci eu lobortis elementum nibh tellus molestie nunc non.
+          Vulputate ut pharetra sit amet. Convallis convallis tellus id interdum
+          velit laoreet id donec. Ultrices sagittis orci a scelerisque.
+          Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Amet
+          justo donec enim diam vulputate. Ante in nibh mauris cursus. Ac
+          tincidunt vitae semper quis lectus nulla at volutpat. Gravida quis
+          blandit turpis cursus in hac habitasse. Nibh praesent tristique magna
+          sit. Sapien pellentesque habitant morbi tristique senectus et netus
+          et. Pharetra massa massa ultricies mi quis.
+        </p>
+        <p>
+          Et magnis dis parturient montes. Massa sed elementum tempus egestas
+          sed. Eu tincidunt tortor aliquam nulla facilisi cras fermentum odio
+          eu. Lectus quam id leo in vitae turpis massa. Sed blandit libero
+          volutpat sed cras ornare arcu. Mi tempus imperdiet nulla malesuada
+          pellentesque elit eget gravida. Dui nunc mattis enim ut tellus
+          elementum. Mauris augue neque gravida in fermentum et sollicitudin ac
+          orci. Donec ac odio tempor orci dapibus ultrices in iaculis nunc.
+          Habitant morbi tristique senectus et netus.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

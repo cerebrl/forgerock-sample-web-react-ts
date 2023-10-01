@@ -10,6 +10,8 @@
 
 // Import libraries
 import { Config, TokenStorage } from '@forgerock/javascript-sdk';
+import { configuration, user } from '@forgerock/login-widget';
+import { OAuthTokenStoreValue } from '@forgerock/login-widget/types';
 import { client } from '@forgerock/token-vault';
 import ReactDOM from 'react-dom/client';
 
@@ -27,6 +29,7 @@ import Router from './router';
  * Initialize the React application
  */
 (async function initAndHydrate() {
+  let isAuthenticated = false;
   let tokenStore;
 
   // Is Token Vault enabled?
@@ -54,47 +57,54 @@ import Router from './router';
     tokenStore = register.store();
   }
 
-  /** ***************************************************************************
-   * SDK INTEGRATION POINT
-   * Summary: Configure the SDK
-   * ----------------------------------------------------------------------------
-   * Details: Below, you will see the following settings:
-   * - clientId: (OAuth 2.0 only) this is the OAuth 2.0 client you created in ForgeRock, such as `ForgeRockSDKClient`
-   * - redirectUri: (OAuth 2.0 only) this is the URI/URL of this app to which the
-   *   OAuth 2.0 flow redirects
-   * - scope: (OAuth 2.0 only) these are the OAuth scopes that you will request from
-   *   ForgeRock
-   * - serverConfig: this includes the baseUrl of your ForgeRock AM, and should
-   *   include the deployment path at the end, such as `/am/` or `/openam/`
-   * - realmPath: this is the realm to use within ForgeRock. such as `alpha` or `root`
-   * - tree: The authentication journey/tree to use, such as `sdkAuthenticationTree`
-   *************************************************************************** */
-  Config.set({
-    clientId: c.WEB_OAUTH_CLIENT,
-    redirectUri: c.REDIRECT_URI,
-    scope: c.OAUTH_SCOPE,
-    serverConfig: {
-      baseUrl: c.AM_URL,
-      timeout: c.TIMEOUT,
-    },
-    realmPath: c.REALM_PATH,
-    ...(c.USE_TOKEN_VAULT && { tokenStore }),
-  });
-  /** *************************************************************************
-   * SDK INTEGRATION POINT
-   * Summary: Get OAuth/OIDC tokens from storage
-   * --------------------------------------------------------------------------
-   * Details: We can immediately call TokenStorage.get() to check for stored
-   * tokens. If we have them, you can cautiously assume the user is
-   * authenticated.
-   ************************************************************************* */
-  let isAuthenticated = false;
-  try {
-    isAuthenticated = c.USE_TOKEN_VAULT
-      ? !!(await tokenStore?.has())?.hasTokens
-      : !((await TokenStorage.get()) == null);
-  } catch (err) {
-    console.error(`Error: token retrieval for hydration; ${err}`);
+  /**
+   * Use appropriate configuration for Widget or SDK usage, and
+   * then attempt to check if access tokens are already present.
+   */
+  if (c.USE_LOGIN_WIDGET) {
+    configuration().set({
+      forgerock: {
+        clientId: c.WEB_OAUTH_CLIENT,
+        redirectUri: c.REDIRECT_URI,
+        scope: c.OAUTH_SCOPE,
+        serverConfig: {
+          baseUrl: c.AM_URL,
+          timeout: Number(c.TIMEOUT),
+        },
+        realmPath: c.REALM_PATH,
+        tokenStore: 'localStorage',
+      },
+      links: {
+        termsAndConditions: '/public/terms-conditions.html',
+      },
+    });
+
+    try {
+      const event = (await user.tokens().get()) as OAuthTokenStoreValue;
+      isAuthenticated = !!event?.response?.accessToken;
+    } catch (err) {
+      console.info(`Info: no existing tokens for hydration; ${err}`);
+    }
+  } else {
+    Config.set({
+      clientId: c.WEB_OAUTH_CLIENT,
+      redirectUri: c.REDIRECT_URI,
+      scope: c.OAUTH_SCOPE,
+      serverConfig: {
+        baseUrl: c.AM_URL,
+        timeout: c.TIMEOUT,
+      },
+      realmPath: c.REALM_PATH,
+      ...(c.USE_TOKEN_VAULT && { tokenStore }),
+    });
+
+    try {
+      isAuthenticated = c.USE_TOKEN_VAULT
+        ? !!(await tokenStore?.has())?.hasTokens
+        : !((await TokenStorage.get()) == null);
+    } catch (err) {
+      console.info(`Info: no existing token for hydration; ${err}`);
+    }
   }
 
   /**
@@ -109,6 +119,7 @@ import Router from './router';
 
   if (prefersDarkTheme) {
     document.body.classList.add('cstm_bg-dark', 'bg-dark');
+    document.getElementById('login-modal')?.classList.add('tw_dark'); // tw_dark controls Login Widget theme
   }
 
   /**

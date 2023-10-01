@@ -9,9 +9,10 @@
  */
 
 import { FRUser } from '@forgerock/javascript-sdk';
+import { user } from '@forgerock/login-widget';
 import React, { useState } from 'react';
 
-// import { DEBUGGER } from './constants';
+import { USE_LOGIN_WIDGET } from './constants';
 
 type AppContextState = [
   {
@@ -87,7 +88,11 @@ export function useGlobalStateMgmt({
        ********************************************************************* */
       // if (DEBUGGER) debugger;
       try {
-        await FRUser.logout();
+        if (USE_LOGIN_WIDGET) {
+          await user.logout();
+        } else {
+          await FRUser.logout();
+        }
       } catch (err) {
         console.error(`Error: logout did not successfully complete; ${err}`);
       }

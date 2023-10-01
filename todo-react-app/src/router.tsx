@@ -18,11 +18,13 @@ import EmbeddedLogin from './views/embedded-login';
 import CentralRegister from './views/central-register';
 import EmbeddedRegister from './views/embedded-register';
 import Todos from './views/todos';
+import WidgetRegistration from './views/widget-register';
 
 // import layout components
 import Header from './components/layout/header';
 import Footer from './components/layout/footer';
 import Logout from './views/logout';
+import { USE_LOGIN_WIDGET } from './constants';
 
 let Login = CentralLogin;
 let Register = CentralRegister;
@@ -31,6 +33,11 @@ let Register = CentralRegister;
 if (import.meta.env.VITE_EMBEDDED_LOGIN === 'true') {
   Login = EmbeddedLogin;
   Register = EmbeddedRegister;
+} else if (USE_LOGIN_WIDGET) {
+  // Login uses Login Widget modal, so this is not needed
+  Login = () => <></>;
+  // Registration uses Login Widget's inline within view
+  Register = WidgetRegistration;
 }
 
 export default function Router() {

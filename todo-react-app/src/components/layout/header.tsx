@@ -8,8 +8,11 @@
  * of the MIT license. See the LICENSE file for details.
  */
 
-import { useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Widget, { component, journey } from '@forgerock/login-widget';
+import { useContext, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+import { USE_LOGIN_WIDGET } from '../../constants';
 
 import AccountIcon from '../icons/account-icon';
 import { AppContext } from '../../global-state';
@@ -29,11 +32,62 @@ export default function Header() {
    * The destructing of the hook's array results in index 0 having the state value,
    * and index 1 having the "setter" method to set new state values.
    */
+  const componentEvents = component();
+  const journeyEvents = journey();
   const [state] = useContext(AppContext);
   const location = useLocation();
+  const [_, methods] = useContext(AppContext);
+  const navigate = useNavigate();
 
   let TodosItem;
   let LoginOrOutItem;
+
+  function openModal() {
+    journeyEvents.start();
+    componentEvents.open();
+  }
+
+  useEffect(() => {
+    const componentEventUnsub = componentEvents.subscribe((event) => {
+      console.log(event);
+    });
+    const journeyEventUnsub = journeyEvents.subscribe((event) => {
+      if (event?.user?.successful) {
+        if (event?.user?.response) {
+          const user = event.user.response as { name: string; email: string };
+          /**
+           * Set user state/info on "global state"
+           */
+          methods.setUser(user.name);
+          methods.setEmail(user.email);
+          methods.setAuthentication(true);
+        }
+        navigate('/');
+      }
+    });
+
+    return () => {
+      componentEventUnsub();
+      journeyEventUnsub();
+    };
+  }, []);
+
+  useEffect(() => {
+    // Mount Login Widget if enabled
+    if (USE_LOGIN_WIDGET) {
+      // Instantiate the Widget and assign it to a variable
+      const widget = new Widget({
+        // Target needs to be an actual DOM element, so ref is needed with inline type
+        target: document.getElementById('login-modal') as HTMLDivElement,
+        props: { type: 'modal' }, // Type is modal by default, but declaring here for clarity
+      });
+
+      // Ensure you return a function that destroys the Widget on unmount
+      return () => {
+        widget.$destroy();
+      };
+    }
+  }, []);
 
   /**
    * Render different navigational items depending on authenticated status
@@ -105,6 +159,23 @@ export default function Header() {
             </li>
           </ul>
         </div>
+      </div>
+    );
+  } else if (USE_LOGIN_WIDGET) {
+    TodosItem = null;
+    LoginOrOutItem = (
+      <div className="d-flex py-3">
+        <a
+          className={`cstm_login-link py-2 px-3 mx-1 ${
+            state.theme.mode === 'dark' ? 'cstm_login-link_dark' : ''
+          }`}
+          onClick={openModal}
+        >
+          Sign In
+        </a>
+        <Link className="btn btn-primary" to="/register">
+          Sign Up
+        </Link>
       </div>
     );
   } else {

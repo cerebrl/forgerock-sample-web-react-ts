@@ -9,8 +9,9 @@
  */
 
 import { HttpClient } from '@forgerock/javascript-sdk';
+import { request } from '@forgerock/login-widget';
 
-import { API_URL } from '../constants';
+import * as c from '../constants';
 
 /**
  * @function request - A convenience function for wrapping around HttpClient
@@ -24,7 +25,23 @@ export default async function apiRequest(
   method: string,
   data?: any,
 ) {
+  // Config.set({
+  //   clientId: c.WEB_OAUTH_CLIENT,
+  //   redirectUri: c.REDIRECT_URI,
+  //   scope: c.OAUTH_SCOPE,
+  //   serverConfig: {
+  //     baseUrl: c.AM_URL,
+  //     timeout: Number(c.TIMEOUT),
+  //   },
+  // });
   let json;
+  let req;
+
+  if (c.USE_LOGIN_WIDGET) {
+    req = request;
+  } else {
+    req = HttpClient.request;
+  }
   try {
     /** ***********************************************************************
      * SDK INTEGRATION POINT
@@ -35,8 +52,8 @@ export default async function apiRequest(
      * requests to protected resource APIs. It's a wrapper around the native
      * fetch method.
      *********************************************************************** */
-    const response = await HttpClient.request({
-      url: `${API_URL}/${resource}`,
+    const response = await req({
+      url: `${c.API_URL}/${resource}`,
       init: {
         body: data && JSON.stringify(data),
         headers: {

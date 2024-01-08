@@ -24,17 +24,17 @@ import WidgetRegistration from './views/widget-register';
 import Header from './components/layout/header';
 import Footer from './components/layout/footer';
 import Logout from './views/logout';
-import { USE_LOGIN_WIDGET } from './constants';
+import { USE_EMBEDDED_LOGIN, USE_LOGIN_WIDGET } from './constants';
 
 let Login = CentralLogin;
 let Register = CentralRegister;
 
 // If embedded login is set, switch to the embedded views
-if (import.meta.env.VITE_EMBEDDED_LOGIN === 'true') {
+if (USE_EMBEDDED_LOGIN) {
   Login = EmbeddedLogin;
   Register = EmbeddedRegister;
 } else if (USE_LOGIN_WIDGET) {
-  // Login uses Login Widget modal, so this is not needed
+  // Login uses the Login Widget's modal, so this component is not used
   Login = () => <></>;
   // Registration uses Login Widget's inline within view
   Register = WidgetRegistration;

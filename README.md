@@ -104,7 +104,7 @@ AM_REST_OAUTH_CLIENT=RestOAuthClient
 AM_REST_OAUTH_SECRET=<<<YOUR SECRET>>>
 
 # Login UX settings
-VITE_EMBEDDED_LOGIN=true # Embedded or Central Login experience
+VITE_USE_EMBEDDED_LOGIN=true # Embedded or Central Login experience
 VITE_USE_LOGIN_WIDGET=false # Not implemented yet
 VITE_USE_TOKEN_VAULT=false # Increased security for OAuth token storage
 

@@ -32,15 +32,20 @@ export default function Header() {
    * The destructing of the hook's array results in index 0 having the state value,
    * and index 1 having the "setter" method to set new state values.
    */
-  const componentEvents = component();
-  const journeyEvents = journey();
   const [state] = useContext(AppContext);
   const location = useLocation();
   const [_, methods] = useContext(AppContext);
   const navigate = useNavigate();
 
+  let componentEvents: ReturnType<typeof component>;
+  let journeyEvents: ReturnType<typeof journey>;
   let TodosItem;
   let LoginOrOutItem;
+
+  if (USE_LOGIN_WIDGET) {
+    componentEvents = component();
+    journeyEvents = journey();
+  }
 
   function openModal() {
     journeyEvents.start();
@@ -48,28 +53,30 @@ export default function Header() {
   }
 
   useEffect(() => {
-    const componentEventUnsub = componentEvents.subscribe((event) => {
-      console.log(event);
-    });
-    const journeyEventUnsub = journeyEvents.subscribe((event) => {
-      if (event?.user?.successful) {
-        if (event?.user?.response) {
-          const user = event.user.response as { name: string; email: string };
-          /**
-           * Set user state/info on "global state"
-           */
-          methods.setUser(user.name);
-          methods.setEmail(user.email);
-          methods.setAuthentication(true);
+    if (USE_LOGIN_WIDGET) {
+      const componentEventUnsub = componentEvents.subscribe((event) => {
+        console.log(event);
+      });
+      const journeyEventUnsub = journeyEvents.subscribe((event) => {
+        if (event?.user?.successful) {
+          if (event?.user?.response) {
+            const user = event.user.response as { name: string; email: string };
+            /**
+             * Set user state/info on "global state"
+             */
+            methods.setUser(user.name);
+            methods.setEmail(user.email);
+            methods.setAuthentication(true);
+          }
+          navigate('/');
         }
-        navigate('/');
-      }
-    });
+      });
 
-    return () => {
-      componentEventUnsub();
-      journeyEventUnsub();
-    };
+      return () => {
+        componentEventUnsub();
+        journeyEventUnsub();
+      };
+    }
   }, []);
 
   useEffect(() => {

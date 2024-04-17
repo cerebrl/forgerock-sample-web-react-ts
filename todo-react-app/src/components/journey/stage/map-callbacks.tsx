@@ -4,6 +4,8 @@ import {
   FRCallback,
   KbaCreateCallback,
   PasswordCallback,
+  PingOneProtectEvaluationCallback,
+  PingOneProtectInitializeCallback,
   TermsAndConditionsCallback,
   ValidatedCreatePasswordCallback,
 } from '@forgerock/javascript-sdk';
@@ -16,6 +18,7 @@ import TermsConditions from '../callbacks/terms-conditions';
 import Text from '../callbacks/text';
 import Unknown from '../callbacks/unknown';
 import ValidatedCreatePassword from '../callbacks/validate-create-password';
+import Protect from '../callbacks/protect';
 
 /**
  * Iterate through callbacks received from AM and map the callback to the
@@ -89,6 +92,10 @@ export function mapCallbacksToComponents(cb: FRCallback, idx: number) {
       return (
         <Kba callback={cb as KbaCreateCallback} inputName={name} key={name} />
       );
+    case 'PingOneProtectInitializeCallback':
+      return <Protect callback={cb as PingOneProtectInitializeCallback} />;
+    case 'PingOneProtectEvaluationCallback':
+      return <Protect callback={cb as PingOneProtectEvaluationCallback} />;
     default:
       // If current callback is not supported, render a warning message
       return <Unknown callback={cb} key={`unknown-${idx}`} />;

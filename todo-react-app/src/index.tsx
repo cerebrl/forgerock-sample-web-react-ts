@@ -86,15 +86,17 @@ import Router from './router';
       console.info(`Info: no existing tokens for hydration; ${err}`);
     }
   } else {
-    Config.set({
-      clientId: c.WEB_OAUTH_CLIENT,
+    await Config.setAsync({
+      clientId: '724ec718-c41c-4d51-98b0-84a583f450f9',
       redirectUri: c.REDIRECT_URI,
-      scope: c.OAUTH_SCOPE,
+      scope: `${c.OAUTH_SCOPE} revoke`,
       serverConfig: {
         baseUrl: c.AM_URL,
-        timeout: c.TIMEOUT,
+        // timeout: c.TIMEOUT,
+        wellknown:
+          'https://auth.pingone.ca/02fb4743-189a-4bc7-9d6c-a919edfe6447/as/.well-known/openid-configuration',
       },
-      realmPath: c.REALM_PATH,
+      // realmPath: c.REALM_PATH,
       ...(c.USE_TOKEN_VAULT && { tokenStore }),
     });
 

@@ -8,7 +8,11 @@
     "dev": "npm run build:interceptor && vite",
     "build": "npm run build:interceptor && vite build",
     "build:interceptor": "vite build -c ./vite.interceptor.config.ts",
-    "serve": "vite preview --port 5173"
+    "serve": "vite preview --port 5173",
+    "e2e:widget": "playwright test -c ./playwright.config.widget.ts",
+    "e2e:central": "playwright test -c ./playwright.config.central.ts",
+    "e2e:central:ui": "playwright test -c ./playwright.config.central.ts --ui",
+    "e2e:widget:ui": "playwright test -c ./playwright.config.widget.ts --ui"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
@@ -18,9 +22,12 @@
     "react-router-dom": "^6.14.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.12.12",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
+    "playwright": "^1.44.1",
     "sass": "^1.63.6",
     "vite": "^4.3.9"
   },

@@ -26,6 +26,9 @@ export default defineConfig(({ mode }) => {
     envDir: '../',
     plugins: [react()],
     server: {
+      hmr: {
+        overlay: true,
+      },
       headers: {
         'Service-Worker-Allowed': '/',
         'Service-Worker': 'script',

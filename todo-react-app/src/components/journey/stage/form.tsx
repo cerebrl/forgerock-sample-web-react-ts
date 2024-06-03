@@ -13,6 +13,8 @@ import {
   type DeviceProfileCallback,
   type FRStep,
   FRWebAuthn,
+  PingOneProtectEvaluationCallback,
+  PingOneProtectInitializeCallback,
 } from '@forgerock/javascript-sdk';
 import React, { Fragment, useEffect, useContext, useReducer } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -25,6 +27,7 @@ import { AppContext } from '../../../global-state';
 import Button from '../../utilities/button';
 import DeviceProfile from './device-profile';
 import { mapCallbacksToComponents } from './map-callbacks';
+import Protect from '../callbacks/protect';
 
 /**
  * @function Form - React component for managing the user authentication journey
@@ -166,6 +169,38 @@ export default function Form({
           />
         </form>
       </Fragment>
+    );
+  } else if (
+    renderStep.type === 'Step' &&
+    renderStep.getCallbacksOfType(CallbackType.PingOneProtectInitializeCallback)
+      .length
+  ) {
+    const callback = renderStep.getCallbackOfType(
+      CallbackType.PingOneProtectInitializeCallback,
+    ) as PingOneProtectInitializeCallback;
+    return (
+      <Protect
+        callback={callback}
+        submit={() => {
+          setSubmissionStep(renderStep);
+        }}
+      />
+    );
+  } else if (
+    renderStep.type === 'Step' &&
+    renderStep.getCallbacksOfType(CallbackType.PingOneProtectEvaluationCallback)
+      .length
+  ) {
+    const callback = renderStep.getCallbackOfType(
+      CallbackType.PingOneProtectEvaluationCallback,
+    ) as PingOneProtectEvaluationCallback;
+    return (
+      <Protect
+        callback={callback}
+        submit={() => {
+          setSubmissionStep(renderStep);
+        }}
+      />
     );
   } else if (
     renderStep.type === 'Step' &&

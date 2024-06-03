@@ -10,7 +10,7 @@
 
 // Import libraries
 import { Config, TokenStorage } from '@forgerock/javascript-sdk';
-import { configuration, user } from '@forgerock/login-widget';
+import { configuration, protect, user } from '@forgerock/login-widget';
 import { OAuthTokenStoreValue } from '@forgerock/login-widget/types';
 import { client } from '@forgerock/token-vault';
 import ReactDOM from 'react-dom/client';
@@ -24,6 +24,7 @@ import * as c from './constants';
 // Import state and router mgmt
 import { AppContext, useGlobalStateMgmt } from './global-state';
 import Router from './router';
+import journey from '@forgerock/login-widget';
 
 /**
  * Initialize the React application
@@ -62,8 +63,18 @@ import Router from './router';
    * then attempt to check if access tokens are already present.
    */
   if (c.USE_LOGIN_WIDGET) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const journeyParam = urlParams.get('journey');
+    const initializeProtect = urlParams.get('initializeProtect');
+    if (initializeProtect) {
+      protect.start({
+        envId: initializeProtect,
+      });
+    }
+    console.log(journeyParam);
     configuration().set({
       forgerock: {
+        ...(journeyParam?.length ? { tree: journeyParam } : {}),
         clientId: c.WEB_OAUTH_CLIENT,
         redirectUri: c.REDIRECT_URI,
         scope: c.OAUTH_SCOPE,
